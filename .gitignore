@@ -1,5 +1,6 @@
 _site
-.DS_Store
-.jekyll-cache
 .sass-cache
-.bundle
+node_modules
+/vendor
+.DS_Store
+.idea

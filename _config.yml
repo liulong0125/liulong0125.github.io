@@ -1,74 +1,108 @@
-# Outputting
-permalink: /:categories/:year/:month/:day/:title.html
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
 
-# Conversion
-markdown:         kramdown
-highlighter:      rouge
-excerpt_separator: <!--more-->
+# Site settings
+title: 千里之行，始于足下
+name: 随风飘雁的博客
+email: 952409683@qq.com
+location: 西安
+company:
+company_url:
+github_url: https://github.com/zhoumei
+description: This is Zhou Mei’s technical blog
+favicon: favicon.png # Image must be in assets/images
 
-# Config for your profile.
-title:            Friday Theme            # Site title
-name:             Friday Theme            # Your name
-avatar:           /theme/img/avatar.jpg   # Path to an avatar image
+url: https://zhoumei.github.io/ # the base hostname & protocol for your site
 
-# The theme uses the baseurl throughout, which is useful for running the entire
-# site under a subdir, like for this GitHub Pages deployment as a project site.
-# Use "" when runnign the site out of the root of a domain.
-baseurl: "/friday-theme"
+## Gem
+gems:
+  - jekyll-paginate
+  - jekyll-geo-pattern
+  - rouge
+  - kramdown
+  - jekyll-github-metadata
 
-# Add a directory to hold misc pages, just to keep the root directory clean.
-include: ["_pages", "_portfolio"]
+# Build settings
+markdown: kramdown
+highlighter: rouge
+lsi:         false
+excerpt_separator: "\n\n"
 
-# Wire in the SASS files in the theme directory.
-sass:
-  sass_dir: theme/_sass
-  style: compressed
+source:      .
+destination: ./_site
 
-# Turn the projects into a collection.
-collections:
-  projects:
-    output: true
-    title: Projects
-    permalink: /:collection/:name.html
-  portfolio:
-    output: true
-    title: portfolio
-    permalink: /:collection/:name.html
+quiet:    false
+defaults: []
 
-defaults:
-# Turn the profile sidebar on for all pages by default, except for the
-# collections, where it is off and replaced by useful things on the sidebar.
-# To override this one a page, use
-#    show_profile: false
-# to hide the profile.
+kramdown:
+  input: GFM
+  enable_coderay: true
+
+# Disque
+# disque: httpzhoumeigithubio.disqus.com
+
+# Pagination
+paginate: 10
+paginate_path: 'page:num'
+
+# Navigation
+navs:
   -
-    scope:
-      path: ""
-    values:
-      show_profile: true
+    href: /
+    label: Home
+
   -
-    scope:
-      path: "_posts"
-    values:
-      show_profile: false
-      layout: defaults/post
+    href: /open-source
+    label: Open-Source
+
   -
-    scope:
-      path: "_portfolio"
-    values:
-      show_profile: false
-      layout: defaults/portfolio
+    href: /blog
+    label: Blog
+
   -
-    scope:
-      path: "_projects"
-    values:
-      show_profile: false
-      layout: defaults/project
+    href: /bookmark
+    label: Bookmark
+
   -
-    scope:
-      path: "list"
-    values:
-      show_profile: false
-      layout: defaults/list
+    href: /about
+    label: About
+
+# featured articles
+featured_articles:
+  -
+    href: /2020/11/25/jekyll.html
+    category: jekyll
+    name: 使用Jekyll搭建免费的个人博客详细教程
+    description: 照着做就可以搭建一个免费的个人博客
+
+  -
+    href: /2020/11/16/markdown.html
+    category: markdown
+    name: 写作排版利器Markdown语法
+    description: Markdown语法汇总，很全很详细！
+
+  -
+    href: /2020/06/13/git.html
+    category: git
+    name: Git教程(2020版)
+    description: Git入门，快速上手
+
+# Sidebar to show popular repo
+side_bar_repo_limit: 5 # Number of repos to show
+
+# Google Analytics
+#analytics :
+#   provider : google
+#   google :
+#       tracking_id : 'UA-72165600-1'
 
 
+# For about.html. Fell free to create your own!
+skill_software_keywords: [Java, MySQL, Oracle, Redis]
+skill_j2ee_keywords: [Spring Boot, Hibernet, MyBatis, Spring Data JPA, Elasticsearch]
+skill_web_keywords: [HTML, CSS, JS, JQuery, Ajax]
+skill_mobile_app_keywords: []
