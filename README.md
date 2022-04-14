@@ -1,37 +1,24 @@
-# myblogs
+# Friday Theme
 
-#### 介绍
-个人博客站
+## A Bootstrap 4 portfolio and blog theme for Jekyll
 
-#### 软件架构
-软件架构说明
+* Example 1: This repo builds directly to GitHub pages, which is also the documentation:  https://sfreytag.github.io/friday-theme/
+* Example 2: my own homepage, http://www.freytag.org.uk
 
+## Get Started
 
-#### 安装教程
+Follow the [install notes](https://sfreytag.github.io/friday-theme/projects/install.html).
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## Usage
 
-#### 使用说明
+The theme is free to use, but if you do use it, it would be great to hear from you. Email simon@freytag.org.uk - thanks!
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## Comaptible with Jekyll 4 and GitHub pages
 
-#### 参与贡献
+This theme uses {{site.baseurl}} throughout.
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+This means it works well gith GitHub pages and Jekyll 3.9, where the site is served out of a folder - eg https://sfreytag.github.io/friday-theme/
 
+It also works with Jekyll 4.* and where the site is served out of the root of the domain - eg https://www.freytag.org.uk
 
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+Look at `_config.yml` and the `baseurl` setting.
