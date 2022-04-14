@@ -1,26 +1,28 @@
-# Site settings
-name: Less Or More
-email: luoyan35714@126.com
-author: Freud Kang
-url: http://www.hifreud.com
-resume_site: http://www.hifreud.com/Resume.io/
-github: https://github.com/luoyan35714/
-baseurl: "/LessOrMore"
-description: Actually, less is more!
-meta_description: 康志华;个人博客;学而不思则罔;思而不学则殆;生命不止;折腾不休
-motto: It's our wits that make us men.
-banner: 学而不思则罔，思而不学则殆。
+title: John Smith
+description: My Personal Blog
+author: John Smith
+logo: /hcz-jekyll-blog/static/img/avatar.png
+github: https://github.com/codeasashu
+about: Freelance developer
 
-#permalink: /:categories/:year/:month/:day/:title/
-permalink: /:year/:month/:day/:title/
-paginate: 10
+baseurl: "https://codeasashu.github.io/hcz-jekyll-blog"
+url: "https://codeasashu.github.io/hcz-jekyll-blog"
 
-exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
+allowsearch: true
 
-github_username: luoyan35714
+disqus_shortname: aboutashu
+google_analytics: UA-72862926-1
 
-# Build settings
+share:
+  twitter_username: \#
+  fb_appid: 000000000000
+
+
+enableTags: true
+tagarray: []
+
+paginate: 20
+per_page: 20
+paginate_path: "/page:num/"
 markdown: kramdown
-
-baidu_analysis: 94be4b0f9fc5d94cc0d0415ea6761ae9
-
+gems: [jekyll-paginate, jekyll-gist]
