@@ -1,12 +1,12 @@
-title: John Smith
-description: My Personal Blog
-author: John Smith
-logo: /hcz-jekyll-blog/static/img/avatar.png
+# ----------------------- 其它全局配置 -----------------
+title: 小刘同学
+description: 小刘同学的个人博客
+author: jack·liu
+logo: /static/img/avatar.png
+
+
 github: https://github.com/codeasashu
 about: Freelance developer
-
-baseurl: "https://codeasashu.github.io/hcz-jekyll-blog"
-url: "https://codeasashu.github.io/hcz-jekyll-blog"
 
 allowsearch: true
 
@@ -21,8 +21,29 @@ share:
 enableTags: true
 tagarray: []
 
-paginate: 20
-per_page: 20
-paginate_path: "/page:num/"
+# ----------------------- 服务器配置 -----------------
+# 服务器根目录
+source: .
+# 本地运行时生成的网站目录
+destination: ./_site
+# 布局页面的路径
+layouts_dir: _layouts
+port: 4001
+host: 127.0.0.1
+baseurl: ""
+url: ""
+
+# ----------------------- markdown 转换 & 语法高亮 -----------------
 markdown: kramdown
-gems: [jekyll-paginate, jekyll-gist]
+kramdown:
+    math_engine: mathjax
+    syntax_highlighter: rouge
+
+# ----------------------- 输出配置 -----------------
+permalink: date
+
+# ----------------------- 插件 -----------------
+plugins: [jekyll-paginate, jekyll-gist]
+# 分页中每页显示 5 条博客
+paginate: 2
+paginate_path: "/page:num/"

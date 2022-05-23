@@ -1,3 +1,8 @@
+---
+layout: default
+cc: ww
+---
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,6 +13,8 @@
   </head>
 
   <body class="home overflow-hidden">
+    {% assign test = 'test.html' %}
+    {% include {{ test }} param="我是参数" title="标题" %}
     {% include header.html %}
     {% include main.html %}
     {% include js.html %}
