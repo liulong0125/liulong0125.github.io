@@ -1,23 +1,16 @@
 ---
-layout: default
-cc: ww
+layout: null
 ---
 
 <!DOCTYPE html>
 <html>
-  <head>
-    {% include meta.html %}
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
-      <script type="text/javascript">window.baseurl = '{{ site.url }}';</script>
-      {% include css.html %}
-  </head>
-
-  <body class="home overflow-hidden">
-    {% assign test = 'test.html' %}
-    {% include {{ test }} param="我是参数" title="标题" %}
-    {% include header.html %}
-    {% include main.html %}
-    {% include js.html %}
-    {% include analytics.html %}
-  </body>
+    <head>
+        {% include head.html %}
+    </head>
+    <body>
+        {% include header.html %}
+        {% include main.html %}
+        {% include js.html %}
+        {% include analytics.html %}
+    </body>
 </html>

@@ -1,0 +1,73 @@
+---
+---
+@import 'color';
+/* 全局公共类 */
+.clearfix:after, .clearfix:before{
+    content: '.';
+    display: block;
+    width: 0;height: 0;
+    font-size: 0;line-height: 0;
+    overflow: hidden;clear: both;visibility: hidden;
+}
+.clearfix {
+    zoom: 1;
+}
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;word-break: normal;word-wrap: normal;
+    overflow: hidden;
+}
+
+// 占位符
+// 占位符 - 输入框
+input::-webkit-input-placeholder {
+    color: $placeholder;
+}
+input::-moz-placeholder {
+    color: $placeholder;
+}
+input:-moz-placeholder {
+    color: $placeholder;
+}
+input:-ms-input-placeholder {
+    color: $placeholder;
+}
+
+/* 图标字体 */
+@font-face{
+  font-family:'LcdD';
+  src:url('/static/font/LcdD.eot');
+  src:url('/static/font/LcdD.eot?#iefix') format('embedded-opentype'),
+  url('/static/font/LcdD.woff2') format('woff2'),
+  url('/static/font/LcdD.woff') format('woff'),
+  url('/static/font/LcdD.ttf') format('truetype'),
+  url('/static/font/LcdD.svg#LcdD') format('svg');
+}
+
+.LcdD{
+    font-family:'LcdD' !important;
+    font-style:normal;
+    font-weight:400;
+    line-height:1;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+@font-face{
+  font-family:'icon-font';
+  src:url('static/font/icon-font.eot');
+  src:url('static/font/icon-font.eot?#iefix') format('embedded-opentype'),
+  url('static/font/icon-font.woff2') format('woff2'),
+  url('static/font/icon-font.woff') format('woff'),
+  url('static/font/icon-font.ttf') format('truetype'),
+  url('static/font/icon-font.svg#icon-font') format('svg');
+}
+
+.LcdD{
+    font-family:'icon-font' !important;
+    font-style:normal;
+    font-weight:400;
+    line-height:1;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}

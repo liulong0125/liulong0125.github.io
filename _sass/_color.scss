@@ -1,0 +1,29 @@
+// 网站配色定义
+// 主色
+$primary: #001b5e;
+$primary-dark: #00123f;
+$primary-dark-regular: #000d2e;
+$primary-dark-secondary: #000718;
+$primary-light: #0085b4;
+$primary-light-regular: #00bbff;
+$primary-light-secondary: #bdedff;
+
+// 状态色
+$status-success: #67c23a;
+$status-fail: #f56c6c;
+$status-warn: #e6a23c;
+
+// 中性色
+$gary-primary: #303133;
+$gary-dark-primary: #262627;
+$gary-dark-regular: #1b1b1b;
+$gary-dark-secondary: #000000;
+$gary-light-primary: #888888;
+$gary-light-regular: #dbdbdb;
+$gary-light-secondary: red;
+$gary-black: #000000;
+$gary-white: #ffffff;
+
+// 通用色
+// 占位符
+$placeholder: fade-out($primary-dark, .5);

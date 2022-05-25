@@ -28,7 +28,9 @@ source: .
 destination: ./_site
 # 布局页面的路径
 layouts_dir: _layouts
+# 本地启服务的端口号
 port: 4001
+# 本地启服务器的 ip
 host: 127.0.0.1
 baseurl: ""
 url: ""
@@ -44,6 +46,6 @@ permalink: date
 
 # ----------------------- 插件 -----------------
 plugins: [jekyll-paginate, jekyll-gist]
-# 分页中每页显示 5 条博客
-paginate: 2
+# 分页中每页显示 10 条博客
+paginate: 10
 paginate_path: "/page:num/"

@@ -1,0 +1,25 @@
+---
+---
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, caption, pre, code, legend, fieldset, button, input, textarea, form, th, td, iframe, frame, frameset {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+a {
+  text-decoration:none;
+} 
+img, input, button, fieldset {
+  border:none 0;
+}
+input:focus, button:focus {
+  outline:none;
+}
+body {
+  font:14px/1 "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+  word-wrap: break-word;
+  word-break: break-all;
+  vertical-align: bottom;
+}
+button, input, select, textarea {
+  font-size: 100%;
+}

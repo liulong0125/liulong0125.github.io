@@ -1,0 +1,18 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="description" content="{% if page.title %}{{ page.title }}{% else %}{{ site.description }}{% endif %}" />
+<meta name="keywords" content="{% if page.title %}{{ page.title }}, {{ site.title }}, {% for categ in page.categories %}{{ categ }}{% if forloop.last == false %}, {% endif %}{% endfor %}{% else %}{{ site.title }}, {% for category in site.categories %}{% capture categories_slug %}{{ category | first }}{% endcapture %}{% for categ in categories_slug %}{{ categ }}{% endfor %}{% if forloop.last == false %}, {% endif %}{% endfor %}{% endif %}" />
+<link rel="icon" href="/static/img/favicon.ico" />
+<!-- 样式重置 -->
+<link rel="stylesheet" href="/static/css/reset.css">
+<!-- 通用定义 -->
+<link rel="stylesheet" href="/static/css/color.css">
+<!-- 通用定义 -->
+<link rel="stylesheet" href="/static/css/common.css">
+<!-- 布局定义 - 网站整体布局 -->
+<link rel="stylesheet" href="/static/css/layout.css">
+<!-- 语法高亮样 -->
+<link rel="stylesheet" href="/static/css/syntax.css">
+<script src="/static/js/jquery.min.js"></script>
+<title>{{ page.title }} - {{ site.title }}</title>

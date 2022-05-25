@@ -1,0 +1,228 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+<metadata>
+Created by FontForge 20161003 at Fri Apr 26 07:01:22 2019
+ By www-data
+111
+</metadata>
+<defs>
+<font id="icon-font" horiz-adv-x="2048" >
+  <font-face 
+    font-family="icon-font"
+    font-weight="400"
+    font-stretch="normal"
+    units-per-em="2048"
+    panose-1="2 11 5 3 2 2 4 2 2 4"
+    ascent="1638"
+    descent="-410"
+    bbox="150 -269 1900 1603"
+    underline-thickness="119"
+    underline-position="-237"
+    unicode-range="U+E000-E019A"
+  />
+    <missing-glyph />
+    <glyph glyph-name=".notdef" horiz-adv-x="0" 
+d="M150 1599h1750v-1866h-154v100h-1442v-102h-154v1868zM1746 1457h-1442v-1482h1442v1482zM396 323h552v396h-482v136h482v268h-520v136h1192v-136h-524v-268h484v-136h-484v-396h556v-136h-1256v136zM1200 591l112 84q110 -114 188 -214l-118 -90q-96 130 -182 220z" />
+    <glyph glyph-name="uniE000" unicode="&#xe000;" 
+d="M469 1194l546 -667l548 667h-1094z" />
+    <glyph glyph-name="uniE001" unicode="&#xe001;" 
+d="M395 1189l-107 -107l643 -643l104 -104l107 106l620 621l-104 104l-620 -620z" />
+    <glyph glyph-name="uniE002" unicode="&#xe002;" 
+d="M831 29l107 -123l643 740l104 120l-106 123l-621 714l-104 -120l620 -713zM362 29l107 -123l643 740l104 120l-106 123l-621 714l-104 -120l620 -714z" />
+    <glyph glyph-name="uniE003" unicode="&#xe003;" 
+d="M1216 1479l-107 124l-643 -741l-104 -119l106 -124l621 -713l104 119l-620 714zM1685 1480l-107 123l-643 -740l-104 -120l106 -123l621 -714l104 120l-620 714z" />
+    <glyph glyph-name="uniE004" unicode="&#xe004;" 
+ />
+    <glyph glyph-name="uniE005" unicode="&#xe005;" 
+ />
+    <glyph glyph-name="uniE006" unicode="&#xe006;" 
+ />
+    <glyph glyph-name="uniE007" unicode="&#xe007;" 
+ />
+    <glyph glyph-name="uniE008" unicode="&#xe008;" 
+ />
+    <glyph glyph-name="uniE009" unicode="&#xe009;" 
+ />
+    <glyph glyph-name="uniE00A" unicode="&#xe00a;" 
+ />
+    <glyph glyph-name="uniE00B" unicode="&#xe00b;" 
+ />
+    <glyph glyph-name="uniE00C" unicode="&#xe00c;" 
+ />
+    <glyph glyph-name="uniE00D" unicode="&#xe00d;" 
+ />
+    <glyph glyph-name="uniE00E" unicode="&#xe00e;" 
+ />
+    <glyph glyph-name="uniE00F" unicode="&#xe00f;" 
+ />
+    <glyph glyph-name="uniE011" unicode="&#xe011;" 
+ />
+    <glyph glyph-name="uniE012" unicode="&#xe012;" 
+ />
+    <glyph glyph-name="uniE013" unicode="&#xe013;" 
+ />
+    <glyph glyph-name="uniE014" unicode="&#xe014;" 
+ />
+    <glyph glyph-name="uniE015" unicode="&#xe015;" 
+ />
+    <glyph glyph-name="uniE016" unicode="&#xe016;" 
+ />
+    <glyph glyph-name="uniE017" unicode="&#xe017;" 
+ />
+    <glyph glyph-name="uniE018" unicode="&#xe018;" 
+ />
+    <glyph glyph-name="uniE019" unicode="&#xe019;" 
+ />
+    <glyph glyph-name="uE019A" unicode="&#xe019a;" 
+ />
+    <glyph glyph-name="uniE01B" unicode="&#xe01b;" 
+ />
+    <glyph glyph-name="uniE01C" unicode="&#xe01c;" 
+ />
+    <glyph glyph-name="uniE01D" unicode="&#xe01d;" 
+ />
+    <glyph glyph-name="uniE01E" unicode="&#xe01e;" 
+ />
+    <glyph glyph-name="uniE01F" unicode="&#xe01f;" 
+ />
+    <glyph glyph-name="uniE020" unicode="&#xe020;" 
+ />
+    <glyph glyph-name="uniE021" unicode="&#xe021;" 
+ />
+    <glyph glyph-name="uniE022" unicode="&#xe022;" 
+ />
+    <glyph glyph-name="uniE023" unicode="&#xe023;" 
+ />
+    <glyph glyph-name="uniE024" unicode="&#xe024;" 
+ />
+    <glyph glyph-name="uniE025" unicode="&#xe025;" 
+ />
+    <glyph glyph-name="uniE026" unicode="&#xe026;" 
+ />
+    <glyph glyph-name="uniE027" unicode="&#xe027;" 
+ />
+    <glyph glyph-name="uniE028" unicode="&#xe028;" 
+ />
+    <glyph glyph-name="uniE029" unicode="&#xe029;" 
+ />
+    <glyph glyph-name="uniE02A" unicode="&#xe02a;" 
+ />
+    <glyph glyph-name="uniE02B" unicode="&#xe02b;" 
+ />
+    <glyph glyph-name="uniE02C" unicode="&#xe02c;" 
+ />
+    <glyph glyph-name="uniE02D" unicode="&#xe02d;" 
+ />
+    <glyph glyph-name="uniE02E" unicode="&#xe02e;" 
+ />
+    <glyph glyph-name="uniE02F" unicode="&#xe02f;" 
+ />
+    <glyph glyph-name="uniE030" unicode="&#xe030;" 
+ />
+    <glyph glyph-name="uniE031" unicode="&#xe031;" 
+ />
+    <glyph glyph-name="uniE032" unicode="&#xe032;" 
+ />
+    <glyph glyph-name="uniE033" unicode="&#xe033;" 
+ />
+    <glyph glyph-name="uniE034" unicode="&#xe034;" 
+ />
+    <glyph glyph-name="uniE035" unicode="&#xe035;" 
+ />
+    <glyph glyph-name="uniE036" unicode="&#xe036;" 
+ />
+    <glyph glyph-name="uniE037" unicode="&#xe037;" 
+ />
+    <glyph glyph-name="uniE038" unicode="&#xe038;" 
+ />
+    <glyph glyph-name="uniE039" unicode="&#xe039;" 
+ />
+    <glyph glyph-name="uniE03A" unicode="&#xe03a;" 
+ />
+    <glyph glyph-name="uniE03B" unicode="&#xe03b;" 
+ />
+    <glyph glyph-name="uniE03C" unicode="&#xe03c;" 
+ />
+    <glyph glyph-name="uniE03E" unicode="&#xe03e;" 
+ />
+    <glyph glyph-name="uniE03F" unicode="&#xe03f;" 
+ />
+    <glyph glyph-name="uniE040" unicode="&#xe040;" 
+ />
+    <glyph glyph-name="uniE041" unicode="&#xe041;" 
+ />
+    <glyph glyph-name="uniE042" unicode="&#xe042;" 
+ />
+    <glyph glyph-name="uniE043" unicode="&#xe043;" 
+ />
+    <glyph glyph-name="uniE044" unicode="&#xe044;" 
+ />
+    <glyph glyph-name="uniE045" unicode="&#xe045;" 
+ />
+    <glyph glyph-name="uniE046" unicode="&#xe046;" 
+ />
+    <glyph glyph-name="uniE047" unicode="&#xe047;" 
+ />
+    <glyph glyph-name="uniE048" unicode="&#xe048;" 
+ />
+    <glyph glyph-name="uniE049" unicode="&#xe049;" 
+ />
+    <glyph glyph-name="uniE04A" unicode="&#xe04a;" 
+ />
+    <glyph glyph-name="uniE04B" unicode="&#xe04b;" 
+ />
+    <glyph glyph-name="uniE04C" unicode="&#xe04c;" 
+ />
+    <glyph glyph-name="uniE04D" unicode="&#xe04d;" 
+ />
+    <glyph glyph-name="uniE04E" unicode="&#xe04e;" 
+ />
+    <glyph glyph-name="uniE04F" unicode="&#xe04f;" 
+ />
+    <glyph glyph-name="uniE050" unicode="&#xe050;" 
+ />
+    <glyph glyph-name="uniE051" unicode="&#xe051;" 
+ />
+    <glyph glyph-name="uniE052" unicode="&#xe052;" 
+ />
+    <glyph glyph-name="uniE053" unicode="&#xe053;" 
+ />
+    <glyph glyph-name="uniE054" unicode="&#xe054;" 
+ />
+    <glyph glyph-name="uniE055" unicode="&#xe055;" 
+ />
+    <glyph glyph-name="uniE056" unicode="&#xe056;" 
+ />
+    <glyph glyph-name="uniE057" unicode="&#xe057;" 
+ />
+    <glyph glyph-name="uniE058" unicode="&#xe058;" 
+ />
+    <glyph glyph-name="uniE059" unicode="&#xe059;" 
+ />
+    <glyph glyph-name="uniE05A" unicode="&#xe05a;" 
+ />
+    <glyph glyph-name="uniE05B" unicode="&#xe05b;" 
+ />
+    <glyph glyph-name="uniE05C" unicode="&#xe05c;" 
+ />
+    <glyph glyph-name="uniE05D" unicode="&#xe05d;" 
+ />
+    <glyph glyph-name="uniE05E" unicode="&#xe05e;" 
+ />
+    <glyph glyph-name="uniE05F" unicode="&#xe05f;" 
+ />
+    <glyph glyph-name="uniE060" unicode="&#xe060;" 
+ />
+    <glyph glyph-name="uniE061" unicode="&#xe061;" 
+ />
+    <glyph glyph-name="uniE062" unicode="&#xe062;" 
+ />
+    <glyph glyph-name="uniE063" unicode="&#xe063;" 
+ />
+    <glyph glyph-name="uniE064" unicode="&#xe064;" 
+ />
+    <glyph glyph-name="uniE065" unicode="&#xe065;" 
+ />
+  </font>
+</defs></svg>
