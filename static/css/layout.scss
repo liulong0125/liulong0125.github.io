@@ -1,7 +1,82 @@
 ---
 ---
 @import 'color';
+
 // body
 body {
-    background-color: $gary-light-secondary;
+    background-color: $gary-white;
+}
+
+// 页眉
+[header] {
+    &.gd-wrap-body {
+        background-color: $primary;
+    }
+
+    .gd-body {
+        display: flex;justify-content: space-between;align-items: center;
+        margin: 0 auto;
+        padding: 20px 0;
+        width: 1400px;
+    }
+
+    // 左侧头像和个人信息
+    .md-author {
+        display: flex;align-items: center;
+
+        > :nth-child(n + 2) {
+            margin: 0 0 0 10px;
+        }
+
+        &-avatar {
+            img {
+                width: 60px;height: 60px;
+                border-radius: 50%;
+            }
+        }
+
+        &-info {
+            display: flex;flex-direction: column;
+            color: $gary-white;
+
+            > :nth-child(1) {
+                font-size: 20px;
+                padding: 0 0 6px 0;
+            }
+        }
+    }
+
+    // 右侧搜索
+    .md-search {
+        position: relative;
+        color: $gary-white;
+
+        input {
+            padding: 0 40px 0 0;
+            width: 300px;height: 30px;
+            line-height: 30px;
+            box-shadow: 0 1px 0 0 $gary-white;
+            background-color: transparent;
+        }
+
+        i {
+            position: absolute;right: 0;top: 0;
+            line-height: 30px;font-style: normal;
+            cursor: pointer;
+        }
+    }
+}
+
+// 主体
+[main] {
+    .gd-body{
+
+    }
+}
+
+// 页脚
+[footer] {
+    .gd-body {
+
+    }    
 }

@@ -2,24 +2,10 @@
 title: 小刘同学
 description: 小刘同学的个人博客
 author: jack·liu
+# 头像
+avatar: /static/img/avatar.png
+# logo
 logo: /static/img/avatar.png
-
-
-github: https://github.com/codeasashu
-about: Freelance developer
-
-allowsearch: true
-
-disqus_shortname: aboutashu
-google_analytics: UA-72862926-1
-
-share:
-  twitter_username: \#
-  fb_appid: 000000000000
-
-
-enableTags: true
-tagarray: []
 
 # ----------------------- 服务器配置 -----------------
 # 服务器根目录

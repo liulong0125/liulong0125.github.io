@@ -1,5 +1,4 @@
-(function($){
-	$(document).ready(function(){
-		//Empty space. Fill this with your site specific JS code
-	});
-})(jQuery);
+// 文档加载完毕
+$(document).ready(function() {
+    console.log('文档加载完毕');
+});

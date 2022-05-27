@@ -34,7 +34,7 @@ input:-ms-input-placeholder {
 }
 
 /* 图标字体 */
-@font-face{
+@font-face {
   font-family:'LcdD';
   src:url('/static/font/LcdD.eot');
   src:url('/static/font/LcdD.eot?#iefix') format('embedded-opentype'),
@@ -44,7 +44,7 @@ input:-ms-input-placeholder {
   url('/static/font/LcdD.svg#LcdD') format('svg');
 }
 
-.LcdD{
+.LcdD {
     font-family:'LcdD' !important;
     font-style:normal;
     font-weight:400;
@@ -53,21 +53,25 @@ input:-ms-input-placeholder {
     -moz-osx-font-smoothing:grayscale;
 }
 
-@font-face{
+@font-face {
   font-family:'icon-font';
-  src:url('static/font/icon-font.eot');
-  src:url('static/font/icon-font.eot?#iefix') format('embedded-opentype'),
-  url('static/font/icon-font.woff2') format('woff2'),
-  url('static/font/icon-font.woff') format('woff'),
-  url('static/font/icon-font.ttf') format('truetype'),
-  url('static/font/icon-font.svg#icon-font') format('svg');
+  src:url('/static/font/icon-font.eot');
+  src:url('/static/font/icon-font.eot?#iefix') format('embedded-opentype'),
+  url('/static/font/icon-font.woff2') format('woff2'),
+  url('/static/font/icon-font.woff') format('woff'),
+  url('/static/font/icon-font.ttf') format('truetype'),
+  url('/static/font/icon-font.svg#icon-font') format('svg');
 }
 
-.LcdD{
+.icon-font {
     font-family:'icon-font' !important;
     font-style:normal;
     font-weight:400;
     line-height:1;
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
+}
+
+.icon-double-right-arrow:before {
+    content: '\e002';
 }

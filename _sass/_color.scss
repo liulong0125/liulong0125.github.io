@@ -1,6 +1,6 @@
 // 网站配色定义
 // 主色
-$primary: #001b5e;
+$primary: rgb(0, 150, 136);
 $primary-dark: #00123f;
 $primary-dark-regular: #000d2e;
 $primary-dark-secondary: #000718;
@@ -26,4 +26,4 @@ $gary-white: #ffffff;
 
 // 通用色
 // 占位符
-$placeholder: fade-out($primary-dark, .5);
+$placeholder: fade-out($gary-white, .5);
