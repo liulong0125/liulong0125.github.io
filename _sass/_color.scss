@@ -1,12 +1,17 @@
 // 网站配色定义
 // 主色
-$primary: rgb(0, 150, 136);
-$primary-dark: #00123f;
-$primary-dark-regular: #000d2e;
-$primary-dark-secondary: #000718;
-$primary-light: #0085b4;
-$primary-light-regular: #00bbff;
-$primary-light-secondary: #bdedff;
+$primary-dark: rgb(0, 98, 150);
+$primary-dark-regular: rgb(42, 130, 176);
+$primary: rgb(0, 167, 197);
+$primary-light: rgb(135, 197, 237);
+$primary-light-regular: rgb(227, 244, 255);
+
+// 辅助色
+$subordinate-dark: rgb(205, 41, 90);
+$subordinate-dark-regular: rgb(215, 65, 119);
+$subordinate: rgb(255, 140, 140);
+$subordinate-light: rgb(255, 187, 187);
+$subordinate-light-regular: rgb(255, 239, 239);
 
 // 状态色
 $status-success: #67c23a;
@@ -14,13 +19,12 @@ $status-fail: #f56c6c;
 $status-warn: #e6a23c;
 
 // 中性色
-$gary-primary: #303133;
+
 $gary-dark-primary: #262627;
 $gary-dark-regular: #1b1b1b;
-$gary-dark-secondary: #000000;
+$gary-primary: #303133;
 $gary-light-primary: #888888;
 $gary-light-regular: #dbdbdb;
-$gary-light-secondary: red;
 $gary-black: #000000;
 $gary-white: #ffffff;
 

@@ -48,20 +48,24 @@ body {
 
     // 右侧搜索
     .md-search {
-        position: relative;
+        display: flex;
         color: $gary-white;
 
         input {
-            padding: 0 40px 0 0;
+            box-sizing: border-box;
+            border: 2px solid $subordinate-light-regular;border-radius: 4px 0 0 4px;
+            padding: 0 20px;
             width: 300px;height: 30px;
-            line-height: 30px;
-            box-shadow: 0 1px 0 0 $gary-white;
+            line-height: 30px;color: $gary-white;
             background-color: transparent;
         }
 
-        i {
-            position: absolute;right: 0;top: 0;
-            line-height: 30px;font-style: normal;
+        button {
+            height: 30px;
+            border-radius: 0 4px 4px 0;
+            padding: 0 10px;
+            line-height: 1;color: $subordinate;font-weight: bold;
+            background-color: $subordinate-light-regular;
             cursor: pointer;
         }
     }
