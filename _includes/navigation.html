@@ -1,4 +1,4 @@
-<ul class="list-separator nav navbar-nav well well-primary {{ page.layout }}">
+<div class="list-separator nav navbar-nav well well-primary {{ page.layout }}">
 {% for i in site.data.urls %}
 	{% assign current = nil %}
 	{% assign pageurl = page.url | split:'/' | last %}
@@ -12,6 +12,21 @@
 	{% assign target = i.target %}
     {% unless target %} {% assign target = '_self' %} {% endunless %}
 	{% if pageurl == menuurl or page.layout == i.layout %} {% assign current = 'current-menu-item' %} {% endif %}
-	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12 {{ current }} {{ pageurl }}"><a href="{{ linkurl }}" target="{{ target }}"><i class="fa {{ i.icon }}"></i> {{ i.text }}</a></li>
+	<div class="col-lg-12 col-md-12 col-sm-4 col-xs-12 {{ current }} {{ pageurl }}"><a href="{{ linkurl }}" target="{{ target }}"><i class="fa {{ i.icon }}"></i> {{ i.text }}</a></div>
 {% endfor %}
-</ul>
+</div>
+
+
+
+
+<!-- 先将页面中的 tags 属性收入数组，再删除数组中的空值 nil -->
+{% assign posts = site.posts | map: 'tags' | compact %}
+    <ul>
+        {% for post in posts %}
+            {{ post | join: ',' }}/
+        {% endfor %}
+    </ul>
+
+
+
+

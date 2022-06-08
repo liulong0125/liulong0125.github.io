@@ -73,8 +73,22 @@ body {
 
 // 主体
 [main] {
-    .gd-body{
+    &.gd-wrap-body{
+        background-color: $gary-white;
+    }
+    .gd-body {
+        display: flex;justify-content: space-between;align-items: center;
+        margin: 0 auto;
+        padding: 20px 0;
+        width: 1400px;
 
+        > :nth-child(1) {
+            width: 240px;
+        }
+
+        > :nth-child(2) {
+            width: 1140px;
+        }
     }
 }
 
