@@ -1,4 +1,4 @@
-<div class="md-navigation">
+<div navigation class="md-navigation">
     {% for i in site.data.urls %}
         {% assign pageurl = page.url | split:'/' | last %}
         {% assign menuurl = i.url | split:'/' | last %}
@@ -12,8 +12,8 @@
         {% else %}
             {% assign selected = '' %}
         {% endif %}
-        <div class="md-navigation-item {{ selected }}">
-            <a href="{{ i.url }}"><i class="{{ i.icon }}"></i><span>{{ i.text }}</span></a>
+        <div navigation class="md-navigation-item {{ selected }}">
+            <a navigation href="{{ i.url }}"><i navigation class="{{ i.icon }}"></i><span navigation>{{ i.text }}</span></a>
         </div>
     {% endfor %}
 </div>

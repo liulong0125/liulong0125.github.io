@@ -7,126 +7,148 @@ body {
     background-color: $gary-white;
 }
 
-// 页眉
-[header] {
-    &.gd-wrap-body {
-        background-color: $primary;
+/*---------------------------------------------------------------------------------- 页眉 */
+// 布局
+.gd-wrap-body[header] {
+    background-color: $primary;
+}
+.gd-body[header] {
+    display: flex;justify-content: space-between;align-items: center;
+    margin: 0 auto;
+    padding: 20px 0;
+    width: 1400px;
+}
+
+// 头像
+.md-author[header] {
+    display: flex;align-items: center;
+
+    > :nth-child(n + 2) {
+        margin: 0 0 0 10px;
     }
+}
+.md-author-avatar img[header] {
+    width: 60px;height: 60px;
+    border-radius: 50%;
+}
 
-    .gd-body {
-        display: flex;justify-content: space-between;align-items: center;
-        margin: 0 auto;
-        padding: 20px 0;
-        width: 1400px;
-    }
+// 个人信息
+.md-author-info[header] {
+    display: flex;flex-direction: column;
+    color: $gary-white;
 
-    // 左侧头像和个人信息
-    .md-author {
-        display: flex;align-items: center;
-
-        > :nth-child(n + 2) {
-            margin: 0 0 0 10px;
-        }
-
-        &-avatar {
-            img {
-                width: 60px;height: 60px;
-                border-radius: 50%;
-            }
-        }
-
-        &-info {
-            display: flex;flex-direction: column;
-            color: $gary-white;
-
-            > :nth-child(1) {
-                font-size: 20px;
-                padding: 0 0 6px 0;
-            }
-        }
-    }
-
-    // 右侧搜索
-    .md-search {
-        display: flex;
-        color: $gary-white;
-
-        input {
-            box-sizing: border-box;
-            border: 2px solid $subordinate-light-regular;border-radius: 4px 0 0 4px;
-            padding: 0 20px;
-            width: 300px;height: 30px;
-            line-height: 30px;color: $gary-white;
-            background-color: transparent;
-        }
-
-        button {
-            height: 30px;
-            border-radius: 0 4px 4px 0;
-            padding: 0 10px;
-            line-height: 1;color: $subordinate;font-weight: bold;
-            background-color: $subordinate-light-regular;
-            cursor: pointer;
-        }
+    > :nth-child(1) {
+        font-size: 20px;
+        padding: 0 0 6px 0;
     }
 }
 
-// 主体
-[main] {
-    &.gd-wrap-body{
-        background-color: $gary-white;
+// 搜索框
+.md-search[header] {
+    display: flex;
+    color: $gary-white;
+}
+.md-search input[header] {
+    box-sizing: border-box;
+    border: 2px solid $subordinate-light-regular;border-radius: 4px 0 0 4px;
+    padding: 0 20px;
+    width: 300px;height: 30px;
+    line-height: 30px;color: $gary-white;
+    background-color: transparent;
+}
+.md-search button[header] {
+    height: 30px;
+    border-radius: 0 4px 4px 0;
+    padding: 0 10px;
+    line-height: 1;color: $subordinate;font-weight: bold;
+    background-color: $subordinate-light-regular;
+    cursor: pointer;
+}
+
+/*---------------------------------------------------------------------------------- 主体 */
+// 布局
+.gd-wrap-body[main] {
+    background-color: $gary-white;
+}
+.gd-body[main] {
+    display: flex;justify-content: space-between;align-items: flex-start;
+    margin: 0 auto;
+    padding: 20px 0;
+    width: 1400px;
+
+    > :nth-child(1) {
+        width: 240px;
     }
-    .gd-body {
-        display: flex;justify-content: space-between;align-items: flex-start;
-        margin: 0 auto;
-        padding: 20px 0;
-        width: 1400px;
 
-        > :nth-child(1) {
-            width: 240px;
-        }
-
-        > :nth-child(2) {
-            width: 1140px;
-        }
-    }
-
-    // 左侧导航
-    .md-navigation {
-        display: flex;flex-direction: column;
-        padding: 20px 0;
-        background-color: $primary;
-
-        &-item {
-            display: flex;justify-content: center;
-
-            a {
-                position: relative;
-                width: 180px;height: 50px;
-                line-height: 50px;font-size: 16px;color: $gary-white;
-
-                i {
-                    padding: 0 10px 0 20px;
-                }
-            }
-            a:before {
-                content: '';
-                position: absolute;left: 0;
-                width: 4px;height: 100%;
-                background-color: $primary;
-            }
-        }
-
-        &-item.selected {
-            a {
-                background-color: $primary-dark-regular;
-            }
-            a:before {
-                background-color: $status-warn;
-            }
-        }
+    > :nth-child(2) {
+        width: 1140px;
     }
 }
+
+// 左侧导航
+.md-navigation[navigation] {
+    display: flex;flex-direction: column;
+    padding: 20px 0;
+    background-color: $primary;
+}
+.md-navigation-item[navigation] {
+        display: flex;justify-content: center;
+}
+.md-navigation-item a[navigation] {
+    position: relative;
+    width: 180px;height: 50px;
+    line-height: 50px;font-size: 16px;color: $gary-white;
+}
+.md-navigation-item a i[navigation] {
+    padding: 0 10px 0 20px;
+}
+.md-navigation-item a[navigation]:before {
+    content: '';
+    position: absolute;left: 0;
+    width: 4px;height: 100%;
+    background-color: $primary;
+}
+.md-navigation-item.selected a[navigation] {
+    background-color: $primary-dark-regular;
+}
+.md-navigation-item.selected a[navigation]:before {
+        background-color: $status-warn;
+}
+
+/*---------------------------------------------------------------------------------- 博客列表 */
+.gd-body[index] {
+    display: flex;flex-direction: column;
+    background-color: $primary;
+}
+.md-article[index] {
+    display: flex;
+
+    > :nth-child(n + 1) {
+        flex-shrink: 0;
+    }
+}
+
+.md-article[index] {
+    display: block;flex-direction: column;
+    padding: 20px;
+    color: $gary-white;
+}
+.md-article-row[index]:nth-child(1) {
+    display: flex;justify-content: space-between;
+}
+.md-article-row[index]:nth-child(n + 2) {
+    margin: 10px 0 0;
+}
+
+.md-article-title[index]  {
+    width: 1000px;
+    color: $gary-white;font-size: 20px;line-height: 30px;
+}
+.md-article-date[index]  {
+    width: 100px;
+    text-align: right;
+}
+
 
 // 页脚
 [footer] {
