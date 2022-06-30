@@ -3,10 +3,7 @@ layout: default
 ---
 <!-- 文章详情 -->
 <div articleDetail class="gd-body">
-
-    <article class="content">
-        <div class="post">{{ content }}</div>
-    </article>
+    <div class="markdown-body">{{ content }}</div>
     <hr />
     {% assign hasSimilar = '' %}
     {% for post in site.posts  %}
