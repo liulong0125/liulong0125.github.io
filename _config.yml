@@ -33,5 +33,5 @@ permalink: date
 # ----------------------- 插件 -----------------
 plugins: [jekyll-paginate, jekyll-gist]
 # 分页中每页显示 10 条博客
-paginate: 10
+paginate: 3
 paginate_path: "/page:num/"

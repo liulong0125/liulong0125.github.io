@@ -13,6 +13,11 @@ title: 首页
         <div index class="md-article-row">{{ post.content | strip_html | truncate: 80 }}</div>
     </div>
     {% endfor %}
+    <hr/>
+        <h1>当前页面的编号: {{ paginator.page }}</h1>
+        {{ paginator }}
+    <hr/>
+
     <!-- 分页 -->
     {% if paginator.total_pages > 1 %}
     <ul index class="pager">
