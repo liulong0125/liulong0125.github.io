@@ -118,7 +118,6 @@ body {
 /*---------------------------------------------------------------------------------- 博客列表 */
 .gd-body[index] {
     display: flex;flex-direction: column;
-    background-color: $primary;
 }
 .md-article[index] {
     display: flex;
@@ -131,7 +130,7 @@ body {
 .md-article[index] {
     display: block;flex-direction: column;
     padding: 20px;
-    color: $gary-white;
+    color: $gary-dark-primary;
 }
 .md-article-row[index]:nth-child(1) {
     display: flex;justify-content: space-between;
@@ -142,17 +141,19 @@ body {
 
 .md-article-title[index]  {
     width: 1000px;
-    color: $gary-white;font-size: 20px;line-height: 30px;
+    color: $gary-dark-primary;font-size: 20px;line-height: 30px;
 }
 .md-article-date[index]  {
     width: 100px;
-    text-align: right;
+    text-align: right;color: $gary-light-primary;
 }
-
+.md-article-desc[index] {
+    color: $gary-light-primary;
+}
 
 // 页脚
 [footer] {
     .gd-body {
 
-    }    
+    }
 }
