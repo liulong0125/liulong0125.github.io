@@ -24,14 +24,14 @@ url: ""
 # ----------------------- markdown 转换 & 语法高亮 -----------------
 markdown: kramdown
 kramdown:
-    math_engine: mathjax
+    math_engine: mathjax # 非安装包，需要引入 js 参考 https://www.jianshu.com/p/aa359b3aef0c
     syntax_highlighter: rouge
 
 # ----------------------- 输出配置 -----------------
 permalink: date
 
 # ----------------------- 插件 -----------------
-plugins: [jekyll-paginate, jekyll-gist]
+plugins: [jekyll-paginate, jekyll-watch] # 官网的示例 gems: [xxx] 应该是老版本的写法 http://jekyllcn.com/docs/plugins/
 # 分页中每页显示 10 条博客
 paginate: 10
 paginate_path: "/page:num/"
