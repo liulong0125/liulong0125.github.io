@@ -27,11 +27,12 @@ kramdown:
     math_engine: mathjax # 非安装包，需要引入 js 参考 https://www.jianshu.com/p/aa359b3aef0c
     syntax_highlighter: rouge
 
-# ----------------------- 输出配置 -----------------
-permalink: date
+# ----------------------- 插件配置 -----------------
+plugins: [jekyll-paginate, jekyll-watch] # Jekyll < 3.5.0 版本使用的字段是 gems: [jekyll-paginate]
 
-# ----------------------- 插件 -----------------
-plugins: [jekyll-paginate, jekyll-watch] # 官网的示例 gems: [xxx] 应该是老版本的写法 http://jekyllcn.com/docs/plugins/
+# ----------------------- 输出配置 -----------------
+# 博客的 URL 地址，是个枚举值
+permalink: date # /:categories/:year/:month/:day/:title.html
 # 分页中每页显示 10 条博客
-paginate: 10
+paginate: 2
 paginate_path: "/page:num/"

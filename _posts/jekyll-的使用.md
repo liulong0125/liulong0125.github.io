@@ -8,6 +8,7 @@ tags: [jekyll]
 jekyll 备份。
 
 # jekyll + github 搭建个人静态博客站点
+
 + [jekyll 简介](#jekyll-简介)
 + [Liquid 简介](#liquid-简介)
 + [开发环境搭建](#开发环境搭建)
@@ -30,6 +31,12 @@ jekyll 备份。
 
 
 ## jekyll 简介
+
+111<br/><br/><br/>
+
+222
+
+333
 
 **<font color=red>Jekyll 是一个静态网站生成器。用你喜欢的 标记语言书写内容并交给 Jekyll 处理，它将利用模板为你创建一个静态网站。你可以 调整你想要的网址样式、在网站上显示哪些数据 等等。</font>**
 
@@ -1026,7 +1033,7 @@ jekyll serve
         >      syntax_highlighter: rouge
         >      # 简单配置
         >      highlighter: rouge
-        >                                                               
+        >                                                                           
         >      # jekyll 3.0 后已弃用
         >      highlighter: pygments
         >      ```
@@ -1039,7 +1046,7 @@ jekyll serve
         >           kramdown:
         >               syntax_highlighter_opts:
         >                   disable: true
-        >                                                                                                               
+        >                                                                                                                               
         >       ```
         >       {% endraw %}
 

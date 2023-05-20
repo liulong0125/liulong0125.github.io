@@ -3,20 +3,21 @@ layout: default
 title: 首页
 ---
 <!-- 博客列表 -->
-<div index class="gd-body">
-    {% for post in paginator.posts %}
-    <div index class="gd-body-row md-article">
-        <div index class="md-article-row">
-            <a index class="md-article-title" href="{{ post.url }}">{{ post.title }}</a>
-            <span index class="md-article-date">{{  post.date | date: "%y-%m-%d" }}</span>
+<div>
+    <!-- 博客列表 -->
+    <div class="gd-wrap-blogs">
+        {% for post in paginator.posts %}
+        <div class="gd-blogs">
+            <div class="gd-blogs-row">
+                <a href="{{ post.url }}">{{ post.title }}</a>
+                <span>{{  post.date | date: "%y-%m-%d" }}</span>
+            </div>
+            <div class="gd-blogs-row ellipsis">{{ post.excerpt | strip_html }}</div>
         </div>
-        <div index class="md-article-row md-article-desc">{{ post.content | strip_html | truncate: 80 }}</div>
+        {% endfor %}
     </div>
-    {% endfor %}
-    <hr/>
-        <h1>当前页面的编号: {{ paginator.page }}</h1>
-        {{ paginator }}
-    <hr/>
+    <!-- 分页 -->
+    <div class="gd-wrap-paginator"></div>
 
     <!-- 分页 -->
     {%- comment -%}
@@ -24,41 +25,41 @@ title: 首页
         2. 通过 for in 循环 1 ~ paginator.total_pages
     {%- endcomment -%}
     {% if paginator.total_pages > 1 %}
-        <ul index class="pager">
+        <ul class="pager">
 
             {% if paginator.previous_page %}
-            <li index class="previous">
-                <a index href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo;</a>
+            <li class="previous">
+                <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo;</a>
             </li>
             {% else %}
-            <li index class="previous disabled"><span index aria-hidden="true">&laquo;</span></li>
+            <li class="previous disabled"><span aria-hidden="true">&laquo;</span></li>
             {% endif %}
 
-            <li index><a index href="/">First</a></li>
+            <li index><a href="/">First</a></li>
 
             {% for page in (1..paginator.total_pages) %}
             {% if page == paginator.page %}
-            <li index class="active">
+            <li class="active">
                 <a>{{ page }}<span class="sr-only">(current)</span></a>
             </li>
             {% elsif page == 1 %}
-            <li index><a index href="/">{{ page }}</a></li>
+            <li index><a href="/">{{ page }}</a></li>
             {% else %}
             <li index>
-                <a index href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{
+                <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{
                     page }}</a>
             </li>
             {% endif %}
             {% endfor %}
 
-            <li index><a index href="/page{{ paginator.total_pages }}/">Last</a></li>
+            <li index><a href="/page{{ paginator.total_pages }}/">Last</a></li>
 
             {% if paginator.next_page %}
-            <li index class="next">
-                <a index href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">&raquo;</a>
+            <li class="next">
+                <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">&raquo;</a>
             </li>
             {% else %}
-            <li index class="next disabled"><span>&raquo;</span></li>
+            <li class="next disabled"><span>&raquo;</span></li>
             {% endif %}
         </ul>
     {% endif %}
