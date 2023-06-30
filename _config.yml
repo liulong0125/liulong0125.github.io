@@ -34,5 +34,5 @@ plugins: [jekyll-paginate, jekyll-watch] # Jekyll < 3.5.0 版本使用的字段�
 # 博客的 URL 地址，是个枚举值
 permalink: date # /:categories/:year/:month/:day/:title.html
 # 分页中每页显示 10 条博客
-paginate: 2
+paginate: 5
 paginate_path: "/page:num/"
