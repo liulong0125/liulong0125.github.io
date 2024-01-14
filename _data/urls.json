@@ -6,6 +6,16 @@
         "layout": "post"
     },
     {
+        "text": "分类",
+        "url": "/category/",
+        "icon": "el-icon-menu"
+    },
+    {
+        "text": "标签",
+        "url": "/tag/",
+        "icon": "el-icon-s-flag"
+    },
+    {
         "text": "关于",
         "url": "/about/",
         "icon": "el-icon-warning"

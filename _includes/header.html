@@ -3,6 +3,7 @@
     <div class="gd-header fx fx-gc-sb fx-ai-c">
         <!-- 头像 -->
         <div class="gd-header-col fx fx-ai-c">
+            <i class="el-icon-menu"></i>
             <img src="{{ site.avatar }}"/>
             <div>
                 <div>{{ site.author }}</div>
@@ -10,9 +11,33 @@
             </div>
         </div>
         <!-- 搜索 -->
-        <div class="gd-header-col">
+        <div class="gd-header-col" id="search">
             <input type="text" placeholder="请输入关键字"/>
-            <button type="button">搜索</button>
+            <i class="el-icon-search"></i>
+        </div>
+    </div>
+</div>
+<!-- 搜索弹层 -->
+<div id="search-layer" class="search-layer">
+    <div class="search-layer-content">
+        <div class="search-layer-input-wrap">
+            <div class="search-layer-input" id="search-layer-input">
+                <input type="text" placeholder="请输入关键字"/>
+                <i class="el-icon-search"></i>
+                <span>取消</span>
+            </div>
+        </div>
+        <div class="search-layer-result current">
+            <div class="search-layer-result-label">搜索结果</div>
+            <div class="search-layer-result-list" id="search-current-result">
+                <div class="search-layer-result-item empty">没有数据</div>
+            </div>
+        </div>
+        <div class="search-layer-result history">
+            <div class="search-layer-result-label">搜索历史</div>
+            <div class="search-layer-result-list" id="search-history-result">
+                <div class="search-layer-result-item empty">没有数据</div>
+            </div>
         </div>
     </div>
 </div>

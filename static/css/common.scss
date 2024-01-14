@@ -2,24 +2,11 @@
 ---
 @import 'color';
 
+
+
+
 /* 全局公共类 */
-.clearfix:after,
-.clearfix:before {
-    content: '.';
-    display: block;
-    width: 0;
-    height: 0;
-    font-size: 0;
-    line-height: 0;
-    overflow: hidden;
-    clear: both;
-    visibility: hidden;
-}
-
-.clearfix {
-    zoom: 1;
-}
-
+// 单行内容 ...
 .ellipsis {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -28,11 +15,34 @@
     overflow: hidden;
 }
 
+// 多行内容 ...（需要单独设置最多几行 ... 展示
+.ellipsis-multi {
+    display: -webkit-box;overflow: hidden;text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+}
+
+.fx {
+    display: flex;
+}
+.fx-gc-sb {
+    justify-content: space-between;
+}
+.fx-ai-c {
+    justify-content: space-between;
+}
+
+.lock-scroll {
+    overflow: hidden;
+}
+
 .division {
     margin: 20px 0;
     height: 2px;
     background-color: $gary-light-primary;
 }
+
+
+
 
 // 占位符
 // 占位符 - 输入框
@@ -52,15 +62,7 @@ input:-ms-input-placeholder {
     color: $placeholder;
 }
 
-.fx {
-    display: flex;
-}
-.fx-gc-sb {
-    justify-content: space-between;
-}
-.fx-ai-c {
-    justify-content: space-between;
-}
+
 
 
 /* 图标字体 */

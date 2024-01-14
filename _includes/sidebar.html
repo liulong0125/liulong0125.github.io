@@ -1,4 +1,43 @@
-<!-- 页眉 -->
 <div class="gd-wrap-sidebar">
-    <div class="gd-sidebar" style="background-color: gainsboro"></div>
+    {%- comment -%}
+        右侧边栏在 “分类” 和 “标签” 时，分别显示自己模块的目录列表，其它模块显示所有的。
+    {%- endcomment -%}
+    {% assign pageurl = page.url | split:'/' | last %}
+    {% if pageurl == 'category' %}
+        <div class="gd-sidebar fixed">
+            <div class="gd-sidebar-title">分类</div>
+            <div class="gd-sidebar-content" id="sidebar-category">
+                {% for category in site.categories %}
+                    <span type="scroll" class="gd-sidebar-item sidebar-item" hash="{{ category[0] }}">{{ category[0] }}({{ category[1] | size }})</span>
+                {% endfor %}
+            </div>
+        </div>
+    {% elsif pageurl == 'tag' %}
+        <div class="gd-sidebar fixed">
+            <div class="gd-sidebar-title">标签</div>
+            <div class="gd-sidebar-content" id="sidebar-tag">
+                {% for tag in site.tags %}
+                    <span type="scroll" class="gd-sidebar-item sidebar-item" hash="{{ tag[0] }}">{{ tag[0] }}({{ tag[1] | size }})</span>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="gd-sidebar">
+            <div class="gd-sidebar-title">分类</div>
+            <div class="gd-sidebar-content" id="sidebar-category">
+                {% for category in site.categories %}
+                    <span type="turn" class="gd-sidebar-item sidebar-item" hash="{{ category[0] }}">{{ category[0] }}({{ category[1] | size }})</span>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="gd-sidebar">
+            <div class="gd-sidebar-title">标签</div>
+            <div class="gd-sidebar-content" id="sidebar-tag">
+                {% for tag in site.tags %}
+                    <span type="turn" class="gd-sidebar-item sidebar-item" hash="{{ tag[0] }}">{{ tag[0] }}({{ tag[1] | size }})</span>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
 </div>

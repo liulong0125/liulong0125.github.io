@@ -298,6 +298,17 @@
         border-left: .25em solid #d0d7de;
     }
     
+
+    ul.structure {
+        padding-left: 0;
+        list-style-type: none !important;
+
+        ul {
+            padding-left: 2em;
+            list-style-type: none !important;
+        }
+    }
+
     ul,
     ol {
         margin-top: 0;

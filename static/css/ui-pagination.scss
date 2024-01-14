@@ -1,0 +1,40 @@
+---
+---
+
+.ui-pagination {
+    display: flex;
+    border-left: 1px solid #e2e2e2;
+    font-family: Tahoma,'Microsoft YaHei';font-size: 12px;line-height: 28px;
+
+    .prev,
+    .next {
+        font-family: SimSun;
+    }
+
+    .item,
+    .divide {
+        border: 1px solid #e2e2e2;border-left: none 0;
+        padding: 0 10px;
+        color: #333
+    }
+
+    .item.selected,
+    .item:hover {
+        background-color: #274693;color: #fff
+    }
+
+    .divide {
+        display: none;
+    }
+
+
+    .disabled {
+        color: #e2e2e2;
+    }
+
+    .disabled:hover {
+        color: #e2e2e2;
+        background-color: #fff;
+        cursor: not-allowed;
+    }
+}

@@ -1,8 +1,8 @@
 ---
 layout: post
 title: jekyll 的使用
-categories: [jekyll]
-tags: [jekyll]
+categories: [其它]
+tags: [其它]
 ---
 
 jekyll 备份。

@@ -4,9 +4,9 @@
         {% assign menuurl = i.url | split:'/' | last %}
         {%- comment -%}
             导航栏选中状态判等
-                1. 通用判等，判断 pageurl === menuurl
-                1. 文章详情页需要选中首页，由于详情页使用的都是 layout: post，通过给首页的导航添加 layout: post 后与 page.layout 判等。
-                2. 分页需要选中首页，只需要判断 首页 时是否存在 paginator 变量即可，该变量只在首页可用（分页也属于首页）。
+                1. 通用判等（非 "首页" 的其它菜单项）：判断 pageurl === menuurl
+                1. 文章详情页需要选中首页：由于详情页使用的都是 layout: post，通过给首页的导航添加 layout: post 后与 page.layout 判等。
+                2. 分页需要选中首页：只需要判断 循环项为 i.text == '首页' 时是否存在 paginator 变量即可，该变量只在首页可用（分页也属于首页）。
         {%- endcomment -%}
         {% if pageurl == menuurl %}
             {% assign selected = 'selected' %}

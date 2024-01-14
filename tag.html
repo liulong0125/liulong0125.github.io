@@ -1,0 +1,20 @@
+---
+layout: default
+title: About
+permalink: /tag/
+---
+
+<div class="gd-wrap-category">
+    {% for tag in site.tags %}
+        <div class="gd-category">
+            <div id="{{ tag[0] }}" class="gd-category-title">{{ tag[0] }}</div>
+            <div class="gd-category-content">
+                {% for post in tag[1]  %}
+                        {% if post.url %}
+                            <a href="{{post.url}}">{{ post.title }}</a>
+                        {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
