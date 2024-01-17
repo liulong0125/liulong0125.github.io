@@ -291,7 +291,7 @@ $(document).ready(function() {
         }
     }
 
-    // 设置右下角的wen
+    // 设置右下角的目录
     function setCurrentPosition() {
         var target;
         hFilterList = []; // 筛选前先清空
