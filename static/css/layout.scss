@@ -532,17 +532,24 @@ body {
 }
 
 #structure-fixed {
-    position: fixed;right: 20px;bottom: 90px;z-index: 80;
+    position: fixed;right: 20px;bottom: 90px;z-index: 80;overflow: auto;
     border-radius: 5px;box-shadow: 0 0 3px 0 $gary-light-primary inset;
+    max-height: 40%;max-width: 300px;
     padding: 10px;
     background-color: $gary-white;
 
     .highlight {
         color: $subordinate-dark;font-weight: bold;
     }
+
+    &:hover {
+        overflow: auto;
+    }
 }
 @media screen and (max-width: 1080px) {
     #structure-fixed {
+        bottom: 0;top: 0;right: 0;left: 50%;
+        max-height: 100%;
        display: none;
     }
 }

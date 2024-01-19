@@ -5,10 +5,15 @@ categories: [jQuery]
 tags: [jQuery, 分页插件]
 ---
 
-一个 jQuery 分页插件。
-
 # jQuery 分页插件
-# Css
++ [Css](#css)
++ [Js](#js)
++ [Html](#html)
+
+
+
+
+## Css
 ```css
 .ui-pagination {
     display: flex;
@@ -48,6 +53,9 @@ tags: [jQuery, 分页插件]
     }
 }
 ```
+
+
+
 
 ## Js
 ```javascript
@@ -312,6 +320,9 @@ tags: [jQuery, 分页插件]
 	};
 })(jQuery);
 ```
+
+
+
 
 ## Html
 ```html

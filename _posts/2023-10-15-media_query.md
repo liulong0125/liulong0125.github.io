@@ -11,6 +11,16 @@ tags: [媒介查询]
 
 # 响应式布局-媒介查询
 + [页面配置](#页面配置)
++ [常见使用方式](#常见使用方式)
++ [常见媒体类型](#常见媒体类型)
++ [常见媒体规则](#常见媒体规则)
++ [逻辑操作符](#逻辑操作符)
++ [基于媒介查询的打印样式样例](#基于媒介查询的打印样式样例)
++ [名词](#名词)
+    + [像素](#像素)
+    + [分辨率](#分辨率)
+    + [单位](#单位)
+
 
 
 
@@ -49,16 +59,23 @@ tags: [媒介查询]
 > + ``min-width`` 数轴向右，e.g. ``min-width: 700px`` 表示数轴中从 700 开始往右的闭区间范围。``max-width`` 表示小于某一个范围的闭区间。
 
 
+
+
 ## 常见媒体类型
 ``all``、``print``、``screen``、``speech``，更多类型[^2]
 
 [^2]: [https://drafts.csswg.org/mediaqueries/#media-type](https://drafts.csswg.org/mediaqueries/#media-type)
 
 
+
+
 ## 常见媒体规则
 ``min-width``、``min-height``、``max-width``、``max-height``、``width``、``height``、``device-aspect-ratio``、``orientation``、``min-resolution``，更多规则[^3]
 
 [^3]: [https://drafts.csswg.org/mediaqueries/#media-feature](https://drafts.csswg.org/mediaqueries/#media-feature)
+
+
+
 
 ## 逻辑操作符
 ```css
@@ -97,6 +114,9 @@ tags: [媒介查询]
     + 默认情况下，如果未指定其他类型，则使用all媒体类型。但是，如果使用not或only运算符，则必须显式指定媒体类型。
     + only关键字可防止不支持带有媒体功能的媒体查询的旧版浏览器应用给定的样式。它对现代浏览器没有影响。
 + ``not``和``,``逗号操作符一起使用时，只否定自己的部分。
+
+
+
 
 ## 基于媒介查询的打印样式样例
 ```css
@@ -145,6 +165,9 @@ tags: [媒介查询]
     }
 }
 ```
+
+
+
 
 ## 名词
 ### 像素
