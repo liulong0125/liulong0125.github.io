@@ -240,11 +240,16 @@ $(document).ready(function() {
 
         // 添加滚动右下角导航高亮
         document.addEventListener('scroll', function(e){
-            throttle(setCurrentPosition)            
+            throttle(setCurrentPosition);
         }, false);
 
-
         // 克隆到右下角
+        if (document.documentElement.clientWidth > 1080) {
+            $structureFixed.removeClass('collapse');
+        }
+        $structureFixed.delegate('#structure-fixed-collapse', 'click', function() {
+            $structureFixed.toggleClass('collapse');
+        });
         $structureFixed.append($structure.clone());
         $aList = $structureFixed.find('a');
     }
@@ -320,6 +325,9 @@ $(document).ready(function() {
         $aList.each(function(index, elm) {
             if (elm.getAttribute('href') === '#' + target.id) {
                 elm.className = 'highlight';
+
+                // 由于有滚动条，需要把当前高亮项滚动到顶部
+                $('#structure-fixed .structure')[0].scrollTop = elm.offsetTop;
             } else {
                 elm.className = '';
             }
