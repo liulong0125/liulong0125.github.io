@@ -29,12 +29,12 @@ npm update @vue/cli -g
 // 创建项目
 vue create demo
 
-// 创建项目 - 图形界面
+// 创建项目 - 图形界面，可以选择安装版本 vue2 还是 vue3
 vue ui
 ```
 
 
-> + @vue/cli 是 vue3 的脚手架。
+> + 推荐安装版本 5.0.8。
 
 
 

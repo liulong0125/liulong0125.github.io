@@ -31,7 +31,7 @@ body {
             margin: 0 0 0 4px;
         }
 
-        i {
+        a {
             display: none;
         }
 
@@ -82,7 +82,7 @@ body {
     
         // 头像 & 个人信息
         &-col:nth-child(1) {
-            i {
+            a {
                 display: block;
                 color: $gary-white;font-size: 30px;
             }
