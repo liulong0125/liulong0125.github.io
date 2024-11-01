@@ -33,9 +33,12 @@ vue create demo
 vue ui
 ```
 
+推荐安装版本 5.0.8 版本，``win7`` 安装完成后执行命令  ``vue -V`` 报错 -4054 错误解决方法： ``\node_modules\@vue\cli\node_modules\@achrinza\node-ipc\entities\Defaults.js`` 添加一行代码如图所示：
 
-> + 推荐安装版本 5.0.8。
+![vue_configuration_01.jpg](/static/img/vueConfiguration/vue_configuration_01.jpg)
 
+> + 通过安装低版本的 ``nodejs`` e.g. v12.20.0 可以绕过这个 ``vue -V`` 的错误.
++ 创建好项目后 win7 运行还是会报错 -4054，解决方法和上面一样，把项目中的 ``\node_modules\@achrinza\node-ipc\entities\Defaults.js`` 也进行修正，如果想彻底规避 ``win7`` 有这个错误，就安装低版本的 ``@vue/cli`` 。
 
 
 
