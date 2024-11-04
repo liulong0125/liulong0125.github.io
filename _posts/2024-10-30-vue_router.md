@@ -9,7 +9,8 @@ tags: [vue-router]
 
 # Vuex
 
-+ [基本使用](#基本使用)
++ [基础](#基础)
+    + [基础使用](#基础使用)
     + [标签路由](#标签路由)
     + [脚本路由](#脚本路由)
     + [数据打印](#数据打印)
@@ -27,7 +28,8 @@ tags: [vue-router]
 
 
 
-## 基本使用
+## 基础
+### 基础使用
 **1.目录结构**
 
 **--** ``/src/router/index.js`` - 路由文件。
@@ -110,6 +112,72 @@ export function resetRouter() {
 export default router;
 ```
 
+**常见的路由引入方式如下（语法基于 webpack 框架）：**
+
+
+1\. **同步**路由引入方式：
+
+```javascript
+import index from '@/views/index/index.vue';
+    
+{
+    path: '/index',
+    name: 'index',
+    meta: {
+        title: '首页'
+    },
+    component: index
+}
+```
+
+2\. **异步**路由引入方式一：
+```javascript
+{
+    path: '/index',
+    name: 'index',
+    meta: {
+        title: '首页'
+    },
+    component: () => import('@/views/index/index.vue)
+}
+```
+
+3\. **异步**路由引入方式二：
+```javascript
+{
+    path: '/index',
+    name: 'index',
+    meta: {
+        title: '首页'
+    },
+    component: (resolve) => require(['@/views/index/index.vue'], resolve)
+}
+```
+> webpack3 支持的语法，高版本的 webpack 直接调用 ``() => require('@/views/index/index.vue')`` 即可。
+
+
+
+
+**关于路由切换后回退的页面滚动**
+
+```javascript
+// 滚动函数第第三个入参，是浏览器记录的对应路由页面的上次滚动距离，可以根据路由选择性决定滚动策略
+const scrollBehavior = (to, from , position) => {
+    if (position) {
+        return position;
+    } else {
+        return {
+            x: 0,
+            y: 0
+        };
+    }
+}
+```
+> **<font color=red>编程路由（调用 this.$router.go(-1)、浏览器前进后退按钮这两种会触发浏览器记录的滚动距离，Vue3 对象是 left/top，Vue2 对象是 x/y。</font>**
+
+
+
+
 2.2 **``main.js``**
 ```javascript
 import Vue from 'vue';
@@ -121,9 +189,10 @@ import App from '@/App.vue';
 new Vue({ // eslint-disable-line
     el: '#app', // 挂载的元素
     router,
-    render: h => h(App, { domProps: { id: 'app' } }) // 元素挂在后，id 会小时，需要重再次设置
+    render: h => h(App, { domProps: { id: 'app' } }) //html 文件的 id 为 app 的元素在 实例挂在后会属性消失需要再次设置
 });
 ```
+> **<font color=red>注：</font>** ``Vue3`` 使用 ``createApp`` 方法创建后不存在 id 属性消失问题。
 
 
 
