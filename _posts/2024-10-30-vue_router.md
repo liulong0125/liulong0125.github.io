@@ -7,7 +7,7 @@ tags: [vue-router]
 
 本篇主要介绍 ``vuex-router`` 的使用，用 ``Vue.js + Vue Router`` 创建单页应用，感觉很自然：使用 Vue.js ，我们已经可以通过组合组件来组成应用程序，当你要把 ``vue-router`` 添加进来，我们需要做的是，将组件 ( ``components`` ) 映射到路由 ( ``routes`` )，然后告诉 ``vue-router`` 在哪里渲染它们( [vue-router 3官网](https://v3.router.vuejs.org/zh/guide/)、[vue-router 4官网](https://router.vuejs.org/zh/guide/))。**<font color=red>其中会穿插着将 vue-router 3 和 4 的版本差异。</font>**
 
-# Vuex
+# vue-router
 
 + [基础](#基础)
     + [基础使用](#基础使用)
@@ -15,11 +15,13 @@ tags: [vue-router]
     + [脚本路由](#脚本路由)
     + [数据打印](#数据打印)
     + [导航守卫](#导航守卫)
+        + [守卫分类](#守卫分类)
         + [进入页面路由执行顺序](#进入页面路由执行顺序)
         + [离开页面路由执行顺序](#离开页面路由执行顺序)
         + [页面复用时路由执行顺序](#页面复用时路由执行顺序)
         + [关于 next 调用](#关于-next-调用)
 + [进阶](#进阶)
+    + [组件传参](#组件传参)
     + [动态路由](#动态路由)
 + [注意事项](#注意事项)
 + [Vue3 中的使用](#vue3-中的使用)
@@ -177,6 +179,29 @@ const scrollBehavior = (to, from , position) => {
 
 
 
+**history 模式非脚手架（@vue/cli、vite）搭建的场景，需要单独资源找不到资源返回索引页 index.html 文件**
++ 配置方式1： ``"dev": "cross-env NODE_ENV=development webpack-dev-server --host 0.0.0.0 --port 8888 --open --useLocalIp --history-api-fallback --config webpack.config.js",`` 直接在  ``package.json`` 命令行中添加 ``--history-api-fallback``。
++ 配置方式2：在 ``webpack.conf.js`` 文件中进行如下配置（更细致的配置见(官网)[https://www.webpackjs.com/configuration/dev-server/#devserverhistoryapifallback]）：
+
+```javascript
+    // 进行跨域代理 - 配置
+    devServer: {
+        // 开发环境下资源请求映射到 /public 目录下, 可以直接通过 / 访问 public 下的 index.html 入口 html 文件
+        contentBase: path.join(__dirname, '/public'), 
+        historyApiFallback: {
+            rewrites: [
+                {
+                    from: /.*/g,
+                    to: '/index.html' // 通过 contentBase 配置后，这里就不用带 public 目录前缀了
+                }
+            ]
+        }
+    }
+```
+
+
+
+
 
 2.2 **``main.js``**
 ```javascript
@@ -283,6 +308,28 @@ this.$router.go(-1);
 
 
 ### 导航守卫
+#### 守卫分类
++ 全局守卫
+``beforeEach``/ ``beforeResolve``/ ``afterEach`` 
+> + ``beforeEach``  - 鉴权处理阶段
+> + ``afterEach`` - 页面标题配置
+> + ``beforeResolve`` - 所有组件内的守卫和异步路由组件被解析后执行
+
+
+
++ 路由独享守卫
+``beforeEnter`` - 用的比较少
+
+
++ 组件守卫
+``beforeRouteEnter``/ ``beforeRouteLeave`` / ``beforeRouteUpdate`` / ``watch: '$route'``
+> + ``beforeRouteEnter`` - 一般通过用来判断内容是否存在通过回调函数给当前页面标志位翻面（因为支持会掉函数能获取上下文对象）给个被删除提示，避免页面显示空内容。
++ ``beforeRouteUpdate`` - 组件复用重复用 id 拉取数据时使用（路由参数为变更前的值，有 next）
++ ``watch: '$route'`` - 组件复用重复用 id 拉取数据时使用（路由参数为变更后的值，无 next）
++  ``beforeRouteLeave`` - 用的比较少
+
+
+
 #### 进入页面路由执行顺序
 
 | 导航名称 | 类型 | 执行顺序 | this指向 | next |
@@ -337,6 +384,77 @@ this.$router.go(-1);
 
 
 ## 进阶
+### 组件传参
+可以通过给路由表配置 ``props`` 属性，就可以在组件的 ``props`` 声明中接受组件的参数。在了解组件传参之前先了解一下动态路径参数：
+
+ ```javascript
+{
+    // 动态路径参数以 : 开头，具体的值对应在 $route.params 对象中的 key 和 value
+    path: '/test5/:id',
+    name: 'test5',
+    meta: {
+        title: '测试5'
+    },
+    component: () => import('@/views/test/test5.vue')
+}
+ ```
+ > + e.g. ``/test5/555`` 对应 ``this.$route.params.id`` 值为 555。
+
+**组件传参的设置类型：**
+1. 布尔值
+```javascript
+{
+    path: '/test5/:id',
+    props: true
+    // 省略...
+}
+```
+
+
+2. 函数
+```javascript
+{
+    path: '/test5/:id',
+    // 对 id 参数进行扩充，函数的入参为当前路由
+    props: route => ({ id: `${route.params.id}_test` })
+    // 省略...
+}
+```
+> + 返回的对象在组件中使用 ``props`` 接受的时候按照属性填写。
++ 函数方式可以把查询字符串也作为属性返回，比较灵活。
+
+
+3. 对象
+```javascript
+{
+    path: '/test5/:id',
+    // 对 id 参数进行扩充，函数的入参为当前路由
+    props: {
+        hoppy: 'sing'
+    }
+    // 省略...
+}
+```
+
+组件中的使用
+```vue
+<template>
+    <div>{{ hoppy }}</div>
+</template>
+
+<script>
+    export default {
+        name: 'test',
+        props: ['id', 'hoppy'],
+        // 省略...
+    }
+```
+
+
+
+
+
+
 ### 动态路由
 **1.目录结构**
 
