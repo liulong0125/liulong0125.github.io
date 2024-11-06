@@ -21,11 +21,16 @@ tags: [vue-router]
         + [页面复用时路由执行顺序](#页面复用时路由执行顺序)
         + [关于 next 调用](#关于-next-调用)
 + [进阶](#进阶)
+    + [通配符](#通配符)
     + [组件传参](#组件传参)
+    + [重定向和别名](#重定向和别名)
+    + [路由嵌套](#路由嵌套)
     + [动态路由](#动态路由)
-+ [注意事项](#注意事项)
-+ [Vue3 中的使用](#vue3-中的使用)
-    + [使用方式](#使用方式)
+    + [重置路由表](#重置路由表)
+    + [面包屑](#面包屑)
+    + [多视图](#多视图)
+    + [动画](#动画)
+    + [keep-alive](#keep-alive)
 
 
 
@@ -384,24 +389,77 @@ this.$router.go(-1);
 
 
 ## 进阶
+### 通配符
+使用通配符 "*" 星号，可以匹配任意路径。
+```javascript
+[
+    {
+        // 会匹配以 `/test-` 开头的任意路径
+        path: '/test-*'
+    },
+    {
+        // 会匹配所有路径 - 通常放到最后用作 404 匹配展示
+        path: '*'
+    }
+]
+```
+
+![vue_router_03.jpg](/static/img/vueRouter/vue_router_03.jpg)
+
+> + **<font color=red>vue-router 4 变动</font>**
+```javascript
+[
+  {
+    path: '/test-:id(.*)*', // 通配符写法变成了 “动态参数 + 正则” 方式
+    name: 'test',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/test.vue')
+  },
+  {
+    path: '/:notFound(.*)', // 404 的写法（至于动态参数名字叫 notFound 还是 page404 随意）
+    name: 'test',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/test.vue')
+  }
+]
+```
+![vue_router_04.png](/static/img/vueRouter/vue_router_04.jpg)
+
+
+
+
+
 ### 组件传参
-可以通过给路由表配置 ``props`` 属性，就可以在组件的 ``props`` 声明中接受组件的参数。在了解组件传参之前先了解一下动态路径参数：
+可以通过给路由表配置 ``props`` 属性，就可以在组件的 ``props`` 声明中接受组件的参数。在了解组件传参之前先了解一下**动态路径参数**：
 
  ```javascript
-{
-    // 动态路径参数以 : 开头，具体的值对应在 $route.params 对象中的 key 和 value
-    path: '/test5/:id',
-    name: 'test5',
-    meta: {
-        title: '测试5'
+[
+    {
+        // 动态路径参数以 : 开头，具体的值对应在 $route.params 对象中的 key 和 value
+        path: '/test5/:id',
+        name: 'test5',
+        meta: {
+            title: '测试5'
+        },
+        component: () => import('@/views/test/test5.vue')
     },
-    component: () => import('@/views/test/test5.vue')
-}
+    {
+        path: '/test6/:bookname?', // 可以通过量词限定符 "?" 设置为非必填参数
+        name: 'test6',
+        meta: {
+            title: '测试6'
+        },
+        component: () => import('@/views/test/test6.vue')      
+    }
+]
  ```
  > + e.g. ``/test5/555`` 对应 ``this.$route.params.id`` 值为 555。
+ + ``"?"`` 非必填参数修饰符。
+
+
+
 
 **组件传参的设置类型：**
-1. 布尔值
+
+1\. 布尔值
 ```javascript
 {
     path: '/test5/:id',
@@ -411,7 +469,7 @@ this.$router.go(-1);
 ```
 
 
-2. 函数
+2\. 函数
 ```javascript
 {
     path: '/test5/:id',
@@ -424,22 +482,23 @@ this.$router.go(-1);
 + 函数方式可以把查询字符串也作为属性返回，比较灵活。
 
 
-3. 对象
+3\. 对象
 ```javascript
 {
     path: '/test5/:id',
     // 对 id 参数进行扩充，函数的入参为当前路由
     props: {
-        hoppy: 'sing'
+        hoppy: 'sing' // 优先级高于动态路径参数 id，组件会拿不到默认的 id
     }
     // 省略...
 }
 ```
 
-组件中的使用
+**组件中的使用:**
 ```vue
+{% raw %}
 <template>
-    <div>{{ hoppy }}</div>
+    <div>{{ id }}</div>
 </template>
 
 <script>
@@ -448,9 +507,151 @@ this.$router.go(-1);
         props: ['id', 'hoppy'],
         // 省略...
     }
+</script>
+{% endraw %}
 ```
 
 
+
+
+### 重定向和别名
+```javascript
+[
+    {
+        path: '/redirectdemo',
+        alias: '/abc', // path 的别名，访问效果一样
+        name: 'redirectdemo',
+        redirect: '/demo' // 重定向到 /demo
+    },
+    {
+        path: '/demo',
+        name: 'demo',
+        meta: {
+            title: 'demo'
+        },
+        component: () => import('@/views/demo')
+    },
+]
+```
+> + 重定向支持函数。
++ 初次进入 ``redirect`` 页面时，会显示  ``this.$route`` 会有 ``redirectedFrom`` 字段表示从哪个路由重定向的。
++ ``alias`` 支持字符串数组。
+
+
+
+
+
+
+### 路由嵌套
+
+**路由配置**
+```javascript
+[
+    {
+        path: '/demo',
+        name: 'demo',
+        meta: {
+            title: 'demo'
+        },
+        // redirect: '/demo/demo1' // 如果 demo1 的 path 为 'demo1'，通过重定向一样可以默认展示 demo1 子路由
+        component: () => import('@/views/demo'),
+        children: [
+            {
+                path: '', // path 为空的时候默认展示该子路由
+                name: 'demo1',
+                meta: {
+                    title: 'demo1'
+                },
+                component: () => import('@/views/demo1')
+            },
+            {
+                path: 'demo2',
+                name: 'demo2',
+                meta: {
+                    title: 'demo2'
+                },
+                component: () => import('@/views/demo2')
+            },
+        ]
+    }
+]
+```
+> + 自路由如果 ``path`` 为空的时候默认展示该子路由，如果不想设置为空，也要默认展示，可以给父层加一个 ``redirect`` 进行重定向。
+
+
+**Vue 文件**
+```vue
+<!-- demo.vue -->
+<template>
+    <div class="container">
+        <div>demo页面</div>
+        <router-view />
+    </div>
+</template>
+
+<script>
+    export default {
+        name: 'demo'
+    };
+</script>
+
+<!-- demo1.vue -->
+<template>
+    <div>demo1</div>
+</template>
+
+<script>
+    export default {
+        name: 'demo1'
+    };
+</script>
+
+<!-- demo2.vue -->
+<template>
+    <div>demo2</div>
+</template>
+
+<script>
+    export default {
+        name: 'demo1'
+    };
+</script>
+```
+
+**嵌套场景的动态参数**
+
+1\. 路由配置
+```javascript
+[
+    {
+        path: '/demo/:id', // 外层路由有个 id 参数
+        name: 'demo',
+        meta: {
+            title: 'demo'
+        },
+        component: () => import('@/views/demo'),
+        children: [
+            {
+                path: 'demo1/:age', // 内层路由有个 age 参数
+                name: 'demo1',
+                meta: {
+                    title: 'demo1'
+                },
+                component: () => import('@/views/demo/demo1')
+            },
+            {
+                path: 'demo2',
+                name: 'demo2',
+                meta: {
+                    title: 'demo2'
+                },
+                component: () => import('@/views/demo/demo2')
+            },
+        ]
+    }
+]
+```
+![vue_router_05.jpg](/static/img/vueRouter/vue_router_05.jpg)
 
 
 
@@ -493,3 +694,29 @@ this.$router.go(-1);
 3. 动态增加路由的方法
     1. VueRouter3 通过 router.addRoutes([数组项]);进行动态扩展 - 参数为数组。
     2. VueRouter4 通过 router.addRoute(数组项);进行动态扩展 - 参数为对象。
+
+
+
+
+### 重置路由表
+
+
+
+
+### 面包屑
+
+
+
+
+### 动画
+录制 gif 图
+
+
+
+### keep-alive
+
+
+
+
+
+
