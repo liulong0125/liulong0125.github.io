@@ -46,7 +46,7 @@ tags: [npm]
 
 
 ## 思维导图
-目前收集的思维导图类的三方件 ``jsmind`` 、 ``vue-testcase-minder-editor`` 、  [``@antv/x6``](http://x6.antv.antgroup.com/examples) 、 ``@antv/g6`` ``twaver`` 。
+目前收集的思维导图类的三方件 ``jsmind`` 、 ``vue-testcase-minder-editor`` 、  [``@antv/x6``](http://x6.antv.antgroup.com/examples) 、 ``@antv/g6`` 、 ``twaver`` 。
 
 
 
