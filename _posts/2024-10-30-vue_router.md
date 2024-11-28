@@ -659,30 +659,328 @@ this.$router.go(-1);
 ### 动态路由
 **1.目录结构**
 
-**--** ``/src/router/`` - 路由目录。
+**\|--** ``/src/views/`` - 页面视图目录。
 
-**-----** ``/src/router/constantRoutes.js`` - 白名单路由（登录、注册、忘记密码、404等等）。
+**\|-----** ``/src/views/index.vue`` - index页。
 
-**-----** ``/src/router/asyncRoutes.js`` - 需要权限过滤的路由（后台管理、个人中心等等）。
+**\|-----** ``/src/views/about.vue`` - about页。
 
-**-----** ``/src/router/routes.js`` - 路由统一出口引用时可以按需引入。
+**\|-----** ``/src/views/404.vue`` - 404页。
 
-**-----** ``/src/router/index.js`` - 创建路由实例以及路由重置方法 resetRouter。
+**\|-----** ``/src/views/admin.vue`` - admin页（嵌套路由，包含 adminPeople、adminProject 这 2 个页面）。
 
-**--**``/src/main.js``。
+**\|-----** ``/src/views/adminPeople.vue`` - adminPeople页。
+
+**\|-----** ``/src/views/adminProject.vue`` - adminProject页。
+
+**\|--** ``/src/router/`` - 路由配置目录。
+
+**\|-----** ``/src/router/constantRoutes.js`` - 白名单路由（登录、注册、首页、关于、忘记密码、404等等）。
+
+**\|-----** ``/src/router/asyncRoutes.js`` - 需要权限过滤的路由（后台管理、个人中心等等）。
+
+**\|-----** ``/src/router/index.js`` - 创建路由实例以及路由重置方法 resetRouter。
+
+**\|--**``/src/App.vue`` - 应用入口模板。
+
+**\|--**``/src/main.js`` - 应用依赖收集入口。
 
 
 
 
 **2.文件内容**
 
-**``constantRoutes.js``**
+**``/src/views/index.vue``**
+```vue
+{% raw %}
+<template>
+  <div>index页</div>
+</template>
+{% endraw %}
+```
 
-**``asyncRoutes.js``**
 
-**``routes.js``**
 
-**``index.js``**
+
+**``/src/views/about.vue``**
+```vue
+{% raw %}
+<template>
+  <div>about页</div>
+</template>
+{% endraw %}
+```
+
+
+
+
+**``/src/views/404.vue``**
+```vue
+{% raw %}
+<template>
+  <div>404页</div>
+</template>
+{% endraw %}
+```
+
+
+
+
+**``/src/views/admin.vue``**
+```vue
+{% raw %}
+<template>
+  <div>
+    <div>admin页</div>
+    <router-view />
+  </div>
+</template>
+{% endraw %}
+```
+> + 嵌套路由，包含 adminPeople、adminProject 这 2 个页面。
+
+
+
+
+**``/src/views/adminPeople.vue``**
+```vue
+{% raw %}
+<template>
+  <div>人员管理</div>
+</template>
+{% endraw %}
+```
+
+
+
+
+**``/src/views/adminProject.vue``**
+```vue
+{% raw %}
+<template>
+  <div>项目管理</div>
+</template>
+{% endraw %}
+```
+
+
+
+
+**``/src/router/constantRoutes.js``**
+```javascript
+{% raw %}
+// 白名单路由表
+export const constantRoutes = [
+  { // 首页重定向
+    path: '/',
+    redirect: '/index'
+  },
+  { // index页
+    path: '/index',
+    name: 'index',
+    meta: {
+      title: '首页'
+    },
+    component: () => import('@/views/index.vue')
+  },
+  { // about页
+    path: '/about',
+    name: 'about',
+    meta: {
+      title: 'about页'
+    },
+    component: () => import('@/views/about.vue')
+  },
+  { // 404页
+    path: '/404',
+    name: '404',
+    meta: {
+      title: '404'
+    },
+    component: () => import('@/views/404.vue')
+  }
+];
+
+// 404重定向（放到最后，动态路由筛选后追加到最后，避免屏蔽后面的路由导致不可访问）
+export const redirect404 =  {
+  path: '*',
+  name: 'redirect404',
+  meta: {
+    title: 'redirect404'
+  },
+  redirect: '/404'
+};
+{% endraw %}
+```
+> + 算上 404 页面，总共 3 个白名单页面， ``index页``、``about页`` 和  ``404页`` 。
++ 404 重定向路由要放到最后，动态路由拼接完成后追加到路由表的末尾，避免屏蔽后面的路由导致不可访问。
+
+
+
+
+**``/src/router/asyncRoutes.js``**
+```javascript
+{% raw %}
+// 鉴权路由（后端会返回需要被管控的路由，比如demo中的 adminPeople 和 adminProject
+export const asyncRoutes = [
+  {
+    path: '/admin',
+    name: 'admin',
+    meta: {
+      title: '管理页'
+    },
+    component: () => import('@/views/admin.vue'),
+    children: [
+      {
+        path: 'adminPeople',
+        name: 'adminPeople',
+        meta: {
+          title: 'adminPeople页'
+        },
+        component: () => import('@/views/adminPeople.vue')
+      },
+      {
+        path: 'adminProject',
+        name: 'adminProject',
+        meta: {
+          title: 'adminProject页'
+        },
+        component: () => import('@/views/adminProject.vue')
+      }
+    ]
+  }
+];
+{% endraw %}
+```
+> + 需要鉴权的路由：``adminPeople`` 、``adminProject``，后台会返回一个有权限的路由名称数组，提供给前端筛选。
+
+
+
+
+**``/src/router/index.js``**
+```javascript
+{% raw %}
+import Vue from 'vue';
+import Router from 'vue-router';
+export { constantRoutes, redirect404 } from './constantRoutes.js';
+export { asyncRoutes } from './asyncRoutes.js';
+
+Vue.use(Router);
+
+// 创建路由对象
+const createRouter = () => new Router({
+  routes: constantRoutes, // 实例化的时候，只设置白名单路由
+  mode: 'history' // 可以不写，默认采用 hash 模式
+});
+
+// 路由对象实例化
+const router = createRouter();
+
+// 路由重置
+export function resetRouter() {
+  const newRouter = createRouter();
+
+  router.matcher = newRouter.matcher; // 路由重置
+};
+
+let firstEnter = true; // 首次加载时的标示（首次加载进行鉴权）
+
+// 模拟后端请求 - 获取鉴权数据
+function getAuthData() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      /**
+       * 1.后端数据只返回有权限的叶子节点（叶子节点有权限父级节点也就有权限）
+       * 2.可以手动修改模拟的返回数据测试页面是否有访问权限
+      */
+      resolve(['adminPeople', 'adminProject']);
+    }, 3000);
+  });
+}
+
+/**
+ * @note 路由筛选方法 - 由于会有嵌套路由场景，需要进行递归处理
+ * @param {Array} asyncRoutes - [ 总的异步路由数组，也就是 asyncRoutes 数组 ]
+ * @param {Array} authRouters - [ 允许访问的异步路由名称数组，也就是 getAuthData 方法模拟后端返回的叶子节点数组 ]
+ * @return { Array } list - [ 过滤后的允许访问的异步路由数组 ]
+ */
+export function filterAsyncRoutes(asyncRoutes, authRouters) {
+  const list = [];
+
+  asyncRoutes.forEach(route => {
+    // 进行浅拷贝，存在递归时需要对  children 进行重写，避免影响原始数据
+    let temp = { ...route };
+
+    if (temp.children) {
+      temp.children = filterAsyncRoutes(temp.children, authRouters);
+
+      if (temp.children.length) {
+        list.push(temp);
+      }
+    } else {
+      if (authRouters.includes(temp.name)) {
+        list.push(temp);
+      }
+    }
+  });
+
+  return list;
+}
+
+// 路由守卫
+router.beforeEach(async (to, from, next) => {
+  if (firstEnter) {
+    firstEnter = false;
+    let list = await getAuthData();
+
+    if (list && list.length) {
+      filterAsyncRoutes(asyncRoutes, list);
+      // 避免路由直接访问异步路由白屏（动态添加的路由不会立即生效，需要在下一次跳转生效），需要进行一次重定向
+      next(to.fullPath);
+    } else {
+      next(true);
+    }
+  } else {
+    next(true);
+  }
+});
+
+export default router;
+{% endraw %}
+```
+> + 实例化的时候，只设置白名单路由。
+
+
+
+
+**``/src/App.vue``**
+```javascript
+{% raw %}
+<template>
+  <div id="app">
+    <router-view />
+  </div>
+</template>
+{% endraw %}
+```
+
+
+
+
+**``/src/main.js``**
+```javascript
+{% raw %}
+import Vue from 'vue';
+import router from '@/router';
+import App from '@/App.vue';
+
+new Vue({ // eslint-disable-line
+    el: '#app',
+    router,
+    render: h => h(App, { domProps: { id: 'app' } })
+});
+{% endraw %}
+```
 
 
 
