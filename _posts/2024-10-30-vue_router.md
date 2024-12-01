@@ -26,8 +26,11 @@ tags: [vue-router]
     + [重定向和别名](#重定向和别名)
     + [路由嵌套](#路由嵌套)
     + [动态路由](#动态路由)
+      + [效果展示](#效果展示)
+      + [目录结构](#目录结构)
+      + [文件内容](#文件内容)
     + [重置路由表](#重置路由表)
-    + [面包屑](#面包屑)
+    + [导航 & 面包屑](#导航--面包屑)
     + [多视图](#多视图)
     + [动画](#动画)
     + [keep-alive](#keep-alive)
@@ -657,7 +660,21 @@ this.$router.go(-1);
 
 
 ### 动态路由
-**1.目录结构**
+
+#### 效果展示
+
+**有权限访问效果**
+
+![vue_router_06.jpg](/static/img/vueRouter/vue_router_06.gif)
+
+
+**无权限访问效果**
+
+![vue_router_07.jpg](/static/img/vueRouter/vue_router_07.gif)
+
+
+
+#### 目录结构
 
 **\|--** ``/src/views/`` - 页面视图目录。
 
@@ -688,7 +705,7 @@ this.$router.go(-1);
 
 
 
-**2.文件内容**
+#### 文件内容
 
 **``/src/views/index.vue``**
 ```vue
@@ -862,23 +879,24 @@ export const asyncRoutes = [
 {% raw %}
 import Vue from 'vue';
 import Router from 'vue-router';
-export { constantRoutes, redirect404 } from './constantRoutes.js';
-export { asyncRoutes } from './asyncRoutes.js';
+import { constantRoutes, redirect404 } from './constantRoutes.js';
+import { asyncRoutes } from './asyncRoutes.js';
 
 Vue.use(Router);
 
 // 创建路由对象
-const createRouter = () => new Router({
-  routes: constantRoutes, // 实例化的时候，只设置白名单路由
+const createRouter = (reset = false) => new Router({
+  // 实例化的时候，只设置白名单路由（如果是重置路由，把 404 带上）
+  routes: reset ? constantRoutes.concat(redirect404) : constantRoutes,
   mode: 'history' // 可以不写，默认采用 hash 模式
 });
 
 // 路由对象实例化
 const router = createRouter();
 
-// 路由重置
+// 路由重置（后面会讲到）
 export function resetRouter() {
-  const newRouter = createRouter();
+  const newRouter = createRouter(true);
 
   router.matcher = newRouter.matcher; // 路由重置
 };
@@ -934,12 +952,15 @@ router.beforeEach(async (to, from, next) => {
     let list = await getAuthData();
 
     if (list && list.length) {
-      filterAsyncRoutes(asyncRoutes, list);
-      // 避免路由直接访问异步路由白屏（动态添加的路由不会立即生效，需要在下一次跳转生效），需要进行一次重定向
-      next(to.fullPath);
+      // 将异步路由 - 注意追加 404 通配符路由
+      router.addRoutes([...filterAsyncRoutes(asyncRoutes, list), redirect404]);
     } else {
-      next(true);
+      // 注意追加 404 通配符路由
+      router.addRoutes([redirect404]);
     }
+
+    // 避免路由直接访问异步路由白屏（动态添加的路由不会立即生效，需要在下一次跳转生效），需要进行一次重定向
+    next(to.fullPath);
   } else {
     next(true);
   }
@@ -949,6 +970,7 @@ export default router;
 {% endraw %}
 ```
 > + 实例化的时候，只设置白名单路由。
++ **<font color=red>resetRouter 方法，后面路由重置会讲到用途。</font>**
 
 
 
@@ -981,27 +1003,246 @@ new Vue({ // eslint-disable-line
 });
 {% endraw %}
 ```
-
-
-
-
-**3.说明**
-
-1. 通过鉴权动态增加的路由直接访问不能生效需要下一次路由时生效, 需要设置一个 refresh 标量来处理标记是否为刷新状态进入。
-2. 通过 beforeEach 路由时判断 to.path 是否为异步加载的路由，可以通过 to.path 的命名规则比如：/admin 开头的都为异步路由，或者通过 path-to-regexp 进行判断（不能通过 to.name 判断，异步路由第一次访问时没有 name 属性，只有 to.path & to.fullPath）。
-3. 动态增加路由的方法
-    1. VueRouter3 通过 router.addRoutes([数组项]);进行动态扩展 - 参数为数组。
-    2. VueRouter4 通过 router.addRoute(数组项);进行动态扩展 - 参数为对象。
+> + 通过鉴权动态增加的路由直接访问不能生效需要下一次路由时生效, 需要设置一个 firstEnter 标志来处理标记是否为刷新状态进入。
++ 动态增加路由的方法<br />1. ``VueRouter3`` 通过 ``router.addRoutes([数组项]);`` 进行动态扩展 - 参数为数组。<br />2. ``VueRouter4`` 通过 ``router.addRoute(数组项);`` 进行动态扩展 - 参数为对象。
 
 
 
 
 ### 重置路由表
+和动态路由息息相关的就是重置路由表操作，e.g. A 用户是管理员账号登录后有管理页面的权限，A 用户点击的页面登出跳转到当前项目的登录界面，此时 B 用户操作了 A 用户的电脑，登录了自己的普通账号，不具备权限管理页面的权限，由于 A 用户登录的时候，已经通过鉴权操作将请求的权限路由添加到了路由表，这时候 B 用户就有了访问管理页面的权限了，所以需要在退出登录的同事，重置路由表为白名单路由表，也就是上面的 constantRoutes.js 的路由。
+
+**整体流程演示**
+
+![vue_router_08.gif](/static/img/vueRouter/vue_router_08.gif)
+
+**``VueRouter3`` 的处理方式如下：**
+
+调用的方法如下（代码来自  ``/src/router/index.js`` 文件）:
+```javascript
+let authList = ['adminPeople', 'adminProject']; // 模拟权限数据
+let loginOut = false; // 标注是否出发了登出操作
+
+// 创建路由对象
+const createRouter = (reset = false) => new Router({
+  // 实例化的时候，只设置白名单路由（如果是重置路由，把 404 带上）
+  routes: reset ? constantRoutes.concat(redirect404) : constantRoutes,
+  mode: 'history' // 可以不写，默认采用 hash 模式
+});
+
+// 路由对象实例化
+const router = createRouter();
+
+// 路由重置（后面会讲到）
+export function resetRouter() {
+  const newRouter = createRouter(true);
+
+  loginOut = true; // 标示为退出登录状态
+  authList = ['adminProject']; // 修改模拟数据为一个页面的权限
+  router.matcher = newRouter.matcher; // 路由重置
+};
+```
+> + 通过重新调用路由创建的方法，将新的实例 ``newRouter`` 赋值给当前 ``router`` 对象的 ``matcher`` 属性即可。
++ ``createRouter`` 要在重置操作的时候带上 404页（ ``redirect404`` ） 的路由，避免 404页 重定向丢失。
++ **<font color=red>注：VueRouter4 重置路由使用 removeRoute 方法入参为路由的 name 进行删除。</font>**
+
+
+
+**<font color=red>涉及变动的文件如下：</font>**
+
+
+```javascript
+{% raw %}
+import Vue from 'vue';
+import Router from 'vue-router';
+import { constantRoutes, redirect404 } from './constantRoutes.js';
+import { asyncRoutes } from './asyncRoutes.js';
+
+Vue.use(Router);
+
+let authList = ['adminPeople', 'adminProject']; // 模拟权限数据
+let loginOut = false; // 标注是否出发了登出操作
+
+// 创建路由对象
+const createRouter = (reset = false) => new Router({
+  // 实例化的时候，只设置白名单路由（如果是重置路由，把 404 带上）
+  routes: reset ? constantRoutes.concat(redirect404) : constantRoutes,
+  mode: 'history' // 可以不写，默认采用 hash 模式
+});
+
+// 路由对象实例化
+const router = createRouter();
+
+// 路由重置（后面会讲到）
+export function resetRouter() {
+  const newRouter = createRouter(true);
+
+  loginOut = true; // 标示为退出登录状态
+  authList = ['adminProject']; // 修改模拟数据为一个页面的权限
+  router.matcher = newRouter.matcher; // 路由重置
+};
+
+let firstEnter = true; // 首次加载时的标示（首次加载进行鉴权）
+
+// 模拟后端请求 - 获取鉴权数据
+function getAuthData() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      /**
+       * 1.后端数据只返回有权限的叶子节点（叶子节点有权限父级节点也就有权限）
+       * 2.可以手动修改模拟的返回数据测试页面是否有访问权限
+      */
+      resolve(authList);
+    }, 3000);
+  });
+}
+
+/**
+ * @note 路由筛选方法 - 由于会有嵌套路由场景，需要进行递归处理
+ * @param {Array} asyncRoutes - [ 总的异步路由数组，也就是 asyncRoutes 数组 ]
+ * @param {Array} authRouters - [ 允许访问的异步路由名称数组，也就是 getAuthData 方法模拟后端返回的叶子节点数组 ]
+ * @return { Array } list - [ 过滤后的允许访问的异步路由数组 ]
+ */
+export function filterAsyncRoutes(asyncRoutes, authRouters) {
+  const list = [];
+
+  asyncRoutes.forEach(route => {
+    // 进行浅拷贝，存在递归时需要对  children 进行重写，避免影响原始数据
+    let temp = { ...route };
+
+    if (temp.children) {
+      temp.children = filterAsyncRoutes(temp.children, authRouters);
+
+      if (temp.children.length) {
+        list.push(temp);
+      }
+    } else {
+      if (authRouters.includes(temp.name)) {
+        list.push(temp);
+      }
+    }
+  });
+
+  return list;
+}
+
+// 路由守卫
+router.beforeEach(async (to, from, next) => {
+  if (firstEnter || loginOut) { // 增加 退出登录 标志位
+    firstEnter = false;
+    loginOut = false; // 翻面 退出登录 标志位
+    let list = await getAuthData();
+
+    if (list && list.length) {
+      // 将异步路由 - 注意追加 404 通配符路由
+      router.addRoutes([...filterAsyncRoutes(asyncRoutes, list), redirect404]);
+    } else {
+      // 注意追加 404 通配符路由
+      router.addRoutes([redirect404]);
+    }
+
+    // 避免路由直接访问异步路由白屏（动态添加的路由不会立即生效，需要在下一次跳转生效），需要进行一次重定向
+    next(to.fullPath);
+  } else {
+    next(true);
+  }
+});
+
+export default router;
+{% endraw %}
+```
+> + **<font color=red>注：为了模拟退出后重新访问的用户没有 /admin/adminPeople 的权限，将模拟后台返回的权限路由的数据提取为 authList 变量，并在点击 “退出登录并跳转至 /index 页面” 按钮时，将该变量重置为 authList = ['adminProject']，仅有一个权限页面可访问。</font>**
++ 新增一个 ``let loginOut = false`` 的标志位，退出登录的时候标志位翻面，如果  ``firstEnter || loginOut`` （实际的登录场景是要在登录界面输入账号密码点击登录按钮后）拉取用户鉴权数据并翻面 ``loginOut`` 变量（注：此 demo 为了简单化，省掉了退出登录清除当前用户数据的处理，以及需要登录页触发登录的逻辑）。
 
 
 
 
-### 面包屑
+
+``/src/views/adminPeople.vue``
+```vue
+{% raw %}
+<template>
+  <div>
+    <div>人员管理</div>
+    <button type="button" @click="loginOutHandle">退出登录并跳转至 /index 页面</button>
+  </div>
+</template>
+
+<script>
+import { resetRouter } from '@/router/index.js';
+
+export default {
+  methods: {
+    loginOutHandle() {
+      // 重置路由为白名单路由
+      resetRouter();
+
+      // 跳回首页
+      this.$router.push('/index');
+    }
+  }
+};
+</script>
+{% endraw %}
+```
+> + 增加一个登出按钮，触发路由重置操作。
+
+
+
+``/src/views/adminPeople.vue`` - 增加一个访问管理页面的按钮，触发路由跳转管理页面。
+```vue
+{% raw %}
+<template>
+  <div>
+    <div>index页</div>
+    <button type="button" @click="$router.push('/admin/adminPeople')">访问管理页面 /admin/adminPeople 会 404</button>
+    <br />
+    <button type="button" @click="$router.push('/admin/adminProject')">访问管理页面 /admin/adminProject 正常访问</button>
+  </div>
+</template>
+{% endraw %}
+```
+> + 由于路由已经被重置，新返回的权限数据没有第一个管理页面的权限了，访问会 404，第二个管理页面模拟数据返回了可以正常访问。
++ **<font color=red>最简单的处理方式时 window.reload() 方法对页面进行重载，不过刷新页面的用户体验不太好。</font>**
+
+
+
+
+
+
+### 导航 & 面包屑
+**目录结构**
+
+**\|--** ``/src/views/`` - 页面视图目录。
+
+**\|-----** ``/src/views/productCenter.vue`` - 产品中心页。
+
+**\|-----** ``/src/views/productList.vue`` - 产品列表页。
+
+**\|-----** ``/src/views/productDetail.vue`` - 产品详情页。
+
+**\|-----** ``/src/views/router/constantRoutes.js`` - 路由配置。
+
+**\|-----** ``/src/views/router/index.js`` - 路由实例化。
+
+
+
+
+
+**文件内容**
+
+``/src/views/productCenter.vue``
+
+``/src/views/productList.vue``
+
+``/src/views/productDetail.vue``
+
+``/src/views/router/constantRoutes.js``
+> + 产品中心是一个有 2 层子路由的页面。
+
+``/src/views/router/index.js``
+
+
 
 
 
