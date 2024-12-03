@@ -80,14 +80,14 @@ tags: [媒介查询]
 ## 逻辑操作符
 ```css
 /* and 操作符 */
-@media (min-height: 700px) and (max-height: 800px) {
+@media (min-width: 700px) and (max-width: 800px) {
     .test {
         background-color: red;
     }
 }
 
 /* , 逗号操作符（逻辑和 css 的 "," 逗号操作符相同，版本 4 语法可以直接使用 or 操作符） */
-@media (min-height: 700px), (max-height: 600px) {
+@media (min-width: 700px), (max-width: 600px) {
     .test {
         background-color: orange;
     }

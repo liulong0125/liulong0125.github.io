@@ -30,7 +30,7 @@ tags: [vue-router]
       + [目录结构](#目录结构)
       + [文件内容](#文件内容)
     + [重置路由表](#重置路由表)
-    + [导航 & 面包屑](#导航--面包屑)
+    + [面包屑](#面包屑)
     + [多视图](#多视图)
     + [动画](#动画)
     + [keep-alive](#keep-alive)
@@ -221,11 +221,12 @@ import App from '@/App.vue';
 
 new Vue({ // eslint-disable-line
     el: '#app', // 挂载的元素
-    router,
+    router, // 在此配置后，可以通过 this.$router 访问路由的实例并调用方法，也可以通过 this.$route 对象访问当前路由信息
     render: h => h(App, { domProps: { id: 'app' } }) //html 文件的 id 为 app 的元素在 实例挂在后会属性消失需要再次设置
 });
 ```
-> **<font color=red>注：</font>** ``Vue3`` 使用 ``createApp`` 方法创建后不存在 id 属性消失问题。
+> + 实例化 ``Vue`` 实例配置上 ``router`` 后，可以通过 ``this.$router`` 访问路由的实例并调用方法，也可以通过 ``this.$route`` 对象访问当前路由信息
++ **<font color=red>注：</font>** ``Vue3`` 使用 ``createApp`` 方法创建后不存在 ``id`` 属性消失问题。
 
 
 
@@ -1210,7 +1211,7 @@ export default {
 
 
 
-### 导航 & 面包屑
+### 面包屑
 **目录结构**
 
 **\|--** ``/src/views/`` - 页面视图目录。
@@ -1221,10 +1222,13 @@ export default {
 
 **\|-----** ``/src/views/productDetail.vue`` - 产品详情页。
 
-**\|-----** ``/src/views/router/constantRoutes.js`` - 路由配置。
+**\|-----** ``/src/views/router/routes.js`` - 路由配置。
 
 **\|-----** ``/src/views/router/index.js`` - 路由实例化。
 
+**\|-----** ``/src/App.vue`` - 应用入口模板。
+
+**\|-----** ``/src/main.js`` - 应用依赖收集入口。
 
 
 
@@ -1232,17 +1236,214 @@ export default {
 **文件内容**
 
 ``/src/views/productCenter.vue``
+```vue
+{% raw %}
+<template>
+  <div>
+    <div>产品中心</div>
+    <div>面包屑：{{ breadCrumb }}</div>
+    <div>
+      <router-view />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'productCenter',
+  computed: {
+    breadCrumb() {
+      const matched = this.$route.matched || [];
+      let result = [];
+
+      if (matched.length) {
+        result = matched.map(item => item.meta.title)
+      }
+
+      return result.join('/');
+    }
+  }
+};
+</script>
+{% endraw %}
+```
+> + 产品中心的子路由为产品列表。
+
+
+
 
 ``/src/views/productList.vue``
+```vue
+{% raw %}
+<template>
+  <div>
+    <div style="position: relative">
+      <dl>
+        <dt>产品列表</dt>
+        <dd>
+          <router-link
+            to="/productCenter/productList/productDetail/001"
+          >
+            产品1（id 为 001）：华为 nova 12
+          </router-link>
+        </dd>
+        <dd>
+          <router-link
+            to="/productCenter/productList/productDetail/002"
+          >
+            产品2（id 为 002）：华为畅享 70 Pro
+          </router-link>
+        </dd>
+      </dl>
+      <router-view />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'productList'
+};
+</script>
+{% endraw %}
+```
+> + 产品列表的子路由为产品详情。
+
+
+
 
 ``/src/views/productDetail.vue``
+```vue
+{% raw %}
+<template>
+  <div>
+    <div>产品的 ID：{{ pid }}</div>
+    <div>根据产品 ID 查询的详细产品信息...</div>
+  </div>
+</template>
 
-``/src/views/router/constantRoutes.js``
+<script>
+export default {
+  props: ['pid'],
+  name: 'productDetail'
+};
+</script>
+{% endraw %}
+```
+> + 产品详情页，根据产品的 ``ID`` 唯一键值 ``pid`` 传递的产品 ``id`` 查询产品详情，此 ``demo`` 跳过查询流程。
+
+
+
+
+``/src/views/router/routes.js``
+```javascript
+// 路由表
+export default [
+  { // 重定向到产品中心
+    path: '/',
+    redirect: '/productCenter',
+  },
+  {
+    path: '/productCenter', // 产品中心
+    meta: {
+      title: '产品中心'
+    },
+    redirect: '/productCenter/productList',
+    component: () => import('@/views/productCenter.vue'),
+    children: [
+      {
+        path: 'productList', // 产品列表
+        meta: {
+          title: '产品列表'
+        },
+        component: () => import('@/views/productList.vue'), 
+        children: [
+          {
+            path: 'productDetail/:pid', // 产品详情
+            meta: {
+              title: '产品详情'
+            },
+            component: () => import('@/views/productDetail.vue'), 
+            props: true // 组件传参
+          }
+        ]
+      }
+    ]
+  },
+  { // 404页
+    path: '/404',
+    name: '404',
+    meta: {
+      title: '404'
+    },
+    component: () => import('@/views/404.vue')
+  },
+  {
+    path: '*',
+    name: 'redirect404',
+    meta: {
+      title: 'redirect404'
+    },
+    redirect: '/404'
+  }
+];
+```
 > + 产品中心是一个有 2 层子路由的页面。
++ 产品详情路由配置了组件传参 ``props: true`` ，在“产品详情页”通过 ``props: ['pid']`` 进行接收。
+
+
+
 
 ``/src/views/router/index.js``
+```javascript
+import Vue from 'vue';
+import Router from 'vue-router';
+import routes from './routes.js';
+
+Vue.use(Router);
+// 创建路由对象
+const createRouter = (reset = false) => new Router({
+  routes,
+  mode: 'history' // 可以不写，默认采用 hash 模式
+});
+
+// 路由对象实例化
+const router = createRouter();
+
+export default router;
+```
 
 
+
+
+``/src/App.vue``
+```vue
+{% raw %}
+<template>
+  <div id="app">
+    <router-view />
+  </div>
+</template>
+{% endraw %}
+```
+
+
+
+
+``/src/main.js``
+```javascript
+{% raw %}
+import Vue from 'vue';
+import router from '@/router';
+import App from '@/App.vue';
+
+new Vue({ // eslint-disable-line
+    el: '#app',
+    router,
+    render: h => h(App, { domProps: { id: 'app' } })
+});
+{% endraw %}
+```
 
 
 
