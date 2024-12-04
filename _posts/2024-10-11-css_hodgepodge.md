@@ -1,6 +1,6 @@
 ---
 layout: post
-title: css大全
+title: css 大杂烩
 categories: [css]
 tags: [table, 滚动条, scrollbar]
 ---

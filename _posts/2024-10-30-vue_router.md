@@ -31,9 +31,9 @@ tags: [vue-router]
       + [文件内容](#文件内容)
     + [重置路由表](#重置路由表)
     + [面包屑](#面包屑)
-    + [多视图](#多视图)
-    + [动画](#动画)
+    + [过度动画](#过度动画)
     + [keep-alive](#keep-alive)
+    + [多视图](#多视图)
 
 
 
@@ -308,10 +308,14 @@ this.$router.go(-1);
 
 ![vue_router_01.png](/static/img/vueRouter/vue_router_01.png)
 
+> + ``matcher`` 对象路由重置的时候使用，仅限于 ``VueRouter3`` ， ``VueRouter4`` 有 ``removeRoute`` 方法，后面动态路由会讲解。
+
 
 **2.``this.$route``（页面当前路由）打印。**
 
-![vue_router_02.png](/static/img/vueRouter/vue_router_02.png)
+![vue_router_02.jpg](/static/img/vueRouter/vue_router_02.jpg)
+
+![vue_router_06.jpg](/static/img/vueRouter/vue_router_06.jpg)
 
 
 
@@ -664,12 +668,12 @@ this.$router.go(-1);
 
 #### 效果展示
 
-**有权限访问效果**
+**有权限访问演示**
 
 ![vue_router_06.jpg](/static/img/vueRouter/vue_router_06.gif)
 
 
-**无权限访问效果**
+**无权限访问演示**
 
 ![vue_router_07.jpg](/static/img/vueRouter/vue_router_07.gif)
 
@@ -1212,6 +1216,13 @@ export default {
 
 
 ### 面包屑
+面包屑经常用来展示用户的当前位置，尤其是当页面的路由嵌套比较深的时候比较有用。
+
+**效果演示**
+
+![vue_router_09.gif](/static/img/vueRouter/vue_router_09.gif)
+
+
 **目录结构**
 
 **\|--** ``/src/views/`` - 页面视图目录。
@@ -1448,12 +1459,237 @@ new Vue({ // eslint-disable-line
 
 
 
-### 动画
-录制 gif 图
+### 过度动画
+css 动画类库[animate.css](https://daneden.github.io/animate.css/)
+
+**效果演示**
+
+![vue_router_10.gif](/static/img/vueRouter/vue_router_10.gif)
+
+
+![vue_router_07.jpg](/static/img/vueRouter/vue_router_07.jpg)
+
+``Vue`` 通过  ``<transition>...</transition>`` 内置组件对 ``dom`` 元素渲染和销毁过程中切换类名，实现过度过度动画效果。
+
+1. 渲染元素：``v-enter`` & ``v-enter-active`` 类名在 ``dom`` 元素插入到 ``dom``（文档）树之前生效，共同生成初始状态，元素插入文档后的下一帧移除 ``v-enter``，添加 ``v-enter-active`` 和 ``v-enter-to``。
+2. 销毁元素：``v-leave`` & ``v-leave-active`` 形成初始状态，随机添加 ``v-leave-to`` 配置最终状态同时删除 ``v-leave`` 类，动画结束后所有动画类被移除。
+
+> **<font color=red>注：有的动画属性要配合 `v-enter/leave-active``` 定义初始值： top，大部分场景  ``v-enter/leave-active`` 只用来声明动画类型和时长，以及一些辅助样式 position 等。</font>**
++ 一般最终效果会设置的和开始效果保持一致比较连贯不割裂，当然了从右边进入，从左边出虽然是个镜面效果的设置没有保持一致，但是视觉效果会好很多。
+
+
+
+
+**目录结构**
+
+**\|--** ``/src/router/routes.js`` - 路由定义。
+
+**\|---** ``/src/views/pageA.vue`` - pageA页。
+
+**\|---** ``/src/views/pageB.vue`` - pageB页。
+
+**\|---** ``/src/views/pageC.vue`` - pageC页。
+
+**\|---** ``/src/assets/css/basic.less`` - 应用依赖收集入口。
+
+**\|---** ``/src/App.vue`` - 应用入口模板。
+
+**\|---** ``/src/main.js`` - 应用依赖收集入口。
+
+
+
+
+
+
+**文件内容**
+
+``/src/router/routes.js``
+```javascript
+// 路由表
+export default [
+  {
+    path: '/',
+    redirect: '/pageA',
+  },
+  {
+    path: '/pageA',
+    name: 'pageA',
+    component: () => import('@/views/pageA.vue'),
+  },
+  {
+    path: '/pageB',
+    name: 'pageB',
+    component: () => import('@/views/pageB.vue'),
+  },
+  {
+    path: '/pageC',
+    name: 'pageC',
+    component: () => import('@/views/pageC.vue'),
+  },
+  { // 404页
+    path: '/404',
+    name: '404',
+    meta: {
+      title: '404'
+    },
+    component: () => import('@/views/404.vue')
+  },
+  {
+    path: '*',
+    name: 'redirect404',
+    meta: {
+      title: 'redirect404'
+    },
+    redirect: '/404'
+  }
+];
+```
+
+
+
+
+``/src/views/pageA.vue``
+```vue
+{% raw %}
+<template>
+  <div style="text-align: center;background-color: orangered;padding: 20px 0;color: #fff;">
+    <span style="font-size: 40px;">pageA</span>
+    <router-link
+      tag="span"
+      style="color: blue;text-decoration: underline;cursor: pointer"
+      to="/pageB"
+    >
+      跳转 pageB
+    </router-link>
+  </div>
+</template>
+{% endraw %}
+```
+
+
+
+
+``/src/views/pageB.vue``
+```vue
+{% raw %}
+<template>
+  <div style="text-align: center;background-color: violet;padding: 20px 0;color: #fff;">
+    <span style="font-size: 40px;">pageB</span>
+    <router-link
+      tag="span"
+      style="color: blue;text-decoration: underline;cursor: pointer"
+      to="/pageC"
+    >
+      跳转 pageC
+    </router-link>
+  </div>
+</template>
+{% endraw %}
+```
+
+
+
+
+``/src/views/pageC.vue``
+```vue
+{% raw %}
+<template>
+  <div style="text-align: center;background-color: pink;padding: 20px 0;color: #fff;">
+    <span style="font-size: 40px;">pageC</span>
+    <router-link
+      tag="span"
+      style="color: blue;text-decoration: underline;cursor: pointer"
+      to="/pageA"
+    >
+      跳转 pageA
+    </router-link>
+  </div>
+</template>
+{% endraw %}
+```
+
+
+``/src/assets/css/basic.less``
+```css
+body {
+  font: 14px/1 "Microsoft YaHei", Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* css 过渡 */
+.v-enter {
+  transform: translateX(100%);
+}
+.v-enter-active {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  transition: all 0.3s 0s ease; /* 通过设置动画时长和延迟播放时长通过控制台观察类名变化过程 */
+}
+.v-enter-to {
+  transform: translateX(0);
+}
+
+/* 元素销毁过程动画类的切换 */
+.v-leave {
+  transform: translateX(0);
+}
+
+.v-leave-active {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  transition: all 0.3s 0s ease;
+}
+
+.v-leave-to {
+  transform: translateX(-100%);
+}
+```
+
+
+
+
+``/src/App.vue``
+```vue
+{% raw %}
+<template>
+  <div id="app">
+    <!-- 通过添加 transition 组件将路由或者元素包裹添加过渡动画 -->
+    <transition>
+      <router-view />
+    </transition>
+  </div>
+</template>
+{% endraw %}
+```
+
+
+
+
+``/src/main.js``
+```javascript
+import Vue from 'vue';
+import router from '@/router';
+import App from '@/App.vue';
+import '@/assets/css/basic.less';
+
+
+new Vue({ // eslint-disable-line
+    el: '#app',
+    router,
+    render: h => h(App, { domProps: { id: 'app' } })
+});
+```
 
 
 
 ### keep-alive
+
+
+### 多视图
 
 
 
