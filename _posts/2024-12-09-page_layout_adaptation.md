@@ -74,6 +74,9 @@ body {
 > + 声明 ``--scale`` 变量是为了重写 element-ui 的弹层样式（主要为了解决鼠标滚轮放大页面后收缩放约束未放大但是弹层方法的场景，将弹层设置为和页面缩放同等大小）
 
 ``/src/views/utils/viewport.js``
+
+![page_layout_adaptation_02.gif](/static/img/pageLayoutAdaptation/page_layout_adaptation_02.gif)
+
 ```javascript
 // 节流函数 - 绑定窗口变动事件，避免频繁计算
 export function throttle(method, context, THROTTLE_TIME = 300) {
@@ -174,5 +177,5 @@ const app = new Vue({ // eslint-disable-line
       selfAdaptionDisable();
   }
 });
-
 ```
+> + **<font color=red>反向设置 #app 元素的高度，因为等比缩放后会导致下方产生等比缩放后的留白需要方向设置。</font>**
