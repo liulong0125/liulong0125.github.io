@@ -18,6 +18,7 @@ tags: [npm]
 + [sheetjs-style](#sheetjs-style)
 + [editormd](#editormd)
 + [vue-virtual-scroller](#vue-virtual-scroller)
++ [crypto-js](#crypto-js)
 
 
 
@@ -107,3 +108,5 @@ tags: [npm]
 
 
 
+## crypto-js
+常用的加密解密算法包。
