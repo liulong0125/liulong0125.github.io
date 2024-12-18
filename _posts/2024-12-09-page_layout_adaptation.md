@@ -17,9 +17,28 @@ tags: [多端适配, rem, 响应式]
 
 
 ## transform: scale() 缩放
-![page_layout_adaptation_01.gif](/static/img/pageLayoutAdaptation/page_layout_adaptation_01.gif)
+**缩小演示：UI 库弹层变化**
+
+![page_layout_adaptation_03.gif](/static/img/pageLayoutAdaptation/page_layout_adaptation_03.gif)
+
+**缩小演示：高度变化**
+
+![page_layout_adaptation_04.gif](/static/img/pageLayoutAdaptation/page_layout_adaptation_04.gif)
+
+
+**放大演示：UI 库弹层变化**
+
+![page_layout_adaptation_05.gif](/static/img/pageLayoutAdaptation/page_layout_adaptation_05.gif)
+
+
+**放大演示：高度变化**
+
+![page_layout_adaptation_06.gif](/static/img/pageLayoutAdaptation/page_layout_adaptation_06.gif)
+
+
 > + 布局优点：简单有效的等比缩小，可以解决 ``win10+`` 系统设置了文字放大后导致的页面布局空间变小的场景，比如设计稿为  ``1920px`` ，用户的电脑（系统为 ``win10+`` 配置了字体放大 ``150%`` ，此时页面的视口宽度会降低到 ``1280px`` 导致页面空间严重不足，即使使用了 ``flex`` 布局仍然空间不够用造成页面展示变形。
 + 布局遇到的问题：跟某些 ``css`` 动画的写法有冲突，导致应用了对应动画配置的模块字体模糊（可通过书写方式规避）。
++ 
 
 **目录结构**
 
@@ -56,27 +75,22 @@ body {
 #app {
   width: 1920px;
   height: 100%;
-  background-color: yellowgreen;
+  background-color: #fff;
 }
 
-@media screen and (min-width: 1920px) {
-  #app {
-    width: 100%;
-  }
-}
 
-/* 重写 element-ui 的弹层样式（主要为了解决鼠标滚轮放大页面后收缩放约束未放大但是弹层方法的场景，将弹层设置为和页面缩放同等大小）*/
+/* 重写 element-ui 的弹层样式（主要为了解决页面缩小后将弹层的缩放设置为和页面缩放同等大小）*/
 .el-popper {
   transform-origin: 0 0 !important;
   transform: scale(var(--scale)) !important;
 }
 ```
-> + 声明 ``--scale`` 变量是为了重写 element-ui 的弹层样式（主要为了解决鼠标滚轮放大页面后收缩放约束未放大但是弹层方法的场景，将弹层设置为和页面缩放同等大小）
+> + 声明 ``--scale`` 变量是为了重写 element-ui 的弹层样式（主要为了解决页面缩小后将弹层的缩放设置为和页面缩放同等大小）。
+
+
+
 
 ``/src/views/utils/viewport.js``
-
-![page_layout_adaptation_02.gif](/static/img/pageLayoutAdaptation/page_layout_adaptation_02.gif)
-
 ```javascript
 // 节流函数 - 绑定窗口变动事件，避免频繁计算
 export function throttle(method, context, THROTTLE_TIME = 300) {
@@ -111,13 +125,17 @@ function process() {
   const viewPort = getViewPort();
   const app = document.querySelector('#app');
 
-  if (viewPort.width >= 1920) {
+  if (viewPort.width === 1920) {
       scale = 1;
       app.style.height =  '100%';
   } else {
       scale = viewPort.width / DEFAULT_ORIGINAL_WIDTH;
 
-      // 反向设置 #app 元素的高度，因为等比缩放后会导致下方产生等比缩放后的留白需要方向设置
+      /**
+       * 1.反向设置 #app 元素的高度
+       *   1.1 因为等比缩小放后会导致下方产生等比缩小后的留白需要抹平
+       *   1.2 因为等比放大后会导致下方产生等比放大后的的高度溢出需要抹平
+       ***/
       app.style.height = `${viewPort.height / scale}px`;
   }
 
@@ -149,13 +167,17 @@ export function selfAdaptionDisable() {
   window.removeEventListener('resize', resizeHandle, false);
 }
 ```
+> + **<font color=red>反向设置 #app 元素的高度，避免缩小留白和放大溢出。</font>**
+
+
+
 
 ``/src/main.js``
 ```javascript
 import Vue from 'vue';
 import router from '@/router';
 import App from '@/App.vue';
-import '@/assets/css/layout.less';
+import '@/assets/css/layout.css';
 
 // UI 库
 import ElementUI from 'element-ui';
@@ -177,5 +199,6 @@ const app = new Vue({ // eslint-disable-line
       selfAdaptionDisable();
   }
 });
+
 ```
-> + **<font color=red>反向设置 #app 元素的高度，因为等比缩放后会导致下方产生等比缩放后的留白需要方向设置。</font>**
+
