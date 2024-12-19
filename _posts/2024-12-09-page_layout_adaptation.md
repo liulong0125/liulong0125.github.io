@@ -35,6 +35,10 @@ tags: [多端适配, rem, 响应式]
 
 ![page_layout_adaptation_06.gif](/static/img/pageLayoutAdaptation/page_layout_adaptation_06.gif)
 
+**放大演示：echarts清晰度变化**
+
+![page_layout_adaptation_07.gif](/static/img/pageLayoutAdaptation/page_layout_adaptation_07.gif)
+
 
 > + 布局优点：简单有效的等比缩小，可以解决 ``win10+`` 系统设置了文字放大后导致的页面布局空间变小的场景，比如设计稿为  ``1920px`` ，用户的电脑（系统为 ``win10+`` 配置了字体放大 ``150%`` ，此时页面的视口宽度会降低到 ``1280px`` 导致页面空间严重不足，即使使用了 ``flex`` 布局仍然空间不够用造成页面展示变形。
 + 布局遇到的问题：跟某些 ``css`` 动画的写法有冲突，导致应用了对应动画配置的模块字体模糊（可通过书写方式规避）。
