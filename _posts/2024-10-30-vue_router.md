@@ -1471,11 +1471,12 @@ css 动画类库[animate.css](https://daneden.github.io/animate.css/)
 
 ``Vue`` 通过  ``<transition>...</transition>`` 内置组件对 ``dom`` 元素渲染和销毁过程中切换类名，实现过度过度动画效果。
 
-1. 渲染元素：``v-enter`` & ``v-enter-active`` 类名在 ``dom`` 元素插入到 ``dom``（文档）树之前生效，共同生成初始状态，元素插入文档后的下一帧移除 ``v-enter``，添加 ``v-enter-active`` 和 ``v-enter-to``。
-2. 销毁元素：``v-leave`` & ``v-leave-active`` 形成初始状态，随机添加 ``v-leave-to`` 配置最终状态同时删除 ``v-leave`` 类，动画结束后所有动画类被移除。
+1. 渲染元素：``v-enter`` & ``v-enter-active`` 类名在 ``dom`` 元素插入到 ``dom``（文档）树之前生效，共同生成初始状态，元素插入文档后的下一帧移除 ``v-enter``，添加 ``v-enter-to``，动画运行完成后删除所有动画类名。
+2. 销毁元素：``v-leave`` & ``v-leave-active`` 形成初始状态，下一个事件循环随即添加 ``v-leave-to`` 且删除 ``v-leave`` 类，动画结束后所有动画类被移除。
 
-> **<font color=red>注：有的动画属性要配合 `v-enter/leave-active``` 定义初始值： top，大部分场景  ``v-enter/leave-active`` 只用来声明动画类型和时长，以及一些辅助样式 position 等。</font>**
-+ 一般最终效果会设置的和开始效果保持一致比较连贯不割裂，当然了从右边进入，从左边出虽然是个镜面效果的设置没有保持一致，但是视觉效果会好很多。
+> + ``v-enter-active`` 和 ``v-leave-active`` 在整个动画周期内（从元素存在到动画结束）一直存在，可以只设置 ``v-enter/leave`` 或者 ``v-enter/leave-to`` 任意一个类实现动画效果，当然也可以只使用 ``v-enter`` 声明初始状态 ``v-etner-active`` 声明动画时长和缓动函数， ``v-enter-to`` 声明最终状态。
++ **<font color=red>销毁元素和创建的时候，把初始状态放到 v-enter/leave ，把最终状态和动画时长的定义放到 v-enter/leave-to 中，跳过 v-enter/leave-active，否则初始状态效果出不来（现象来自 vue@2.6.14）。</font>**
++ 关于 [过渡 & 动画](/vue/2024/12/23/vue.html#过渡--动画) 详细内容。
 
 
 
@@ -1610,7 +1611,7 @@ export default [
 
 
 ``/src/assets/css/basic.less``
-```css
+```less
 body {
   font: 14px/1 "Microsoft YaHei", Arial, sans-serif;
   padding: 0;
@@ -1618,34 +1619,39 @@ body {
   overflow: hidden;
 }
 
+#app > div {
+  width: 100%;
+}
+
+
 /* css 过渡 */
+// 创建过程
 .v-enter {
+  opacity: 0;
   transform: translateX(100%);
 }
 .v-enter-active {
   position: absolute;
-  width: 100%;
-  top: 0;
-  transition: all 0.3s 0s ease; /* 通过设置动画时长和延迟播放时长通过控制台观察类名变化过程 */
 }
 .v-enter-to {
+  opacity: 1;
   transform: translateX(0);
+  transition: all 1s 0s ease;
 }
 
-/* 元素销毁过程动画类的切换 */
+// 销毁过程
 .v-leave {
-  transform: translateX(0);
+  // 刻意设置离开的初始状态为 -50%，方便理解初始状态
+  transform: translateX(-50%);
 }
-
 .v-leave-active {
   position: absolute;
-  top: 0;
-  width: 100%;
-  transition: all 0.3s 0s ease;
 }
-
 .v-leave-to {
+  opacity: 0;
   transform: translateX(-100%);
+  background-color: yellow !important;
+  transition: all 1s 0s ease;
 }
 ```
 
@@ -1687,12 +1693,126 @@ new Vue({ // eslint-disable-line
 
 
 ### keep-alive
+对视图页面进行缓存，减少接口请求，避免重复渲染；常见使用场景：筛选页跳转详情页后返回操作可以保留筛选条件。
+
+``/src/App.vue``
+```vue
+{% raw %}
+<template>
+  <div id="app">
+    <!-- 通过添加 transition 组件将路由或者元素包裹添加过渡动画 -->
+    <transition>
+      <keep-alive>
+        <router-view />
+      </keep-alive>
+    </transition>
+  </div>
+</template>
+{% endraw %}
+```
+> + **<font color=red>同时存在 transition 和 keep-alive 时，keep-alive 需要在内层。</font>**
++ 更多关于 [keep-alive](/vue/2024/12/23/vue.html#keep-alive) 的内容。 
+
+
 
 
 ### 多视图
+**目录结构**
+
+**\|--** ``/src/router/routes.js`` - 路由定义。
+
+**\|---** ``/src/App.vue`` - 应用入口模板。
 
 
 
+
+**文件内容**
+
+``/src/router/routes.js``
+```javascript
+ // 路由表
+export default [
+  {
+    path: '/',
+    redirect: '/index',
+  },
+  {
+    path: '/index',
+    name: 'index',
+    components: {
+      header: () => import('@/views/header.vue'),
+      default: () => import('@/views/index.vue'),
+      footer: () => import('@/views/footer.vue')
+    }
+  },
+  { // 404页
+    path: '/404',
+    name: '404',
+    meta: {
+      title: '404'
+    },
+    component: () => import('@/views/404.vue')
+  },
+  {
+    path: '*',
+    name: 'redirect404',
+    meta: {
+      title: 'redirect404'
+    },
+    redirect: '/404'
+  }
+];
+```
+> + 多视图声明时， ``component`` 变为 ``components`` , ``key`` 为视图名称。
+
+
+``/src/App.vue``
+```vue
+{% raw %}
+<template>
+  <div id="app">
+    <router-view name="header"/>
+    <router-view />
+    <router-view name="footer"/>
+  </div>
+</template>
+
+<style lang="less" scoped>
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+
+  > div {
+    padding: 10px 0;
+  }
+
+  > div:nth-child(2) {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  > div:nth-child(1) {
+    background-color: orange;
+  }
+
+  > div:nth-child(2) {
+    background-color: violet;
+  }
+
+  > div:nth-child(3) {
+    background-color: pink;
+  }
+}
+</style>
+{% endraw %}
+```
+> + 通过 ``name`` 定义视图名称，默认为 ``default`` 。
++ 如果真的有多个页面要复用页眉和页脚，建议使用嵌套路由来解决。
 
 
 
