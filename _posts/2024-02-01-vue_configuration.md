@@ -1,8 +1,8 @@
 ---
 layout: post
 title: vue 项目脚手架
-categories: [软件]
-tags: [vue]
+categories: [Vue, 软件]
+tags: [脚手架]
 ---
 
 本章介绍 ``vue`` 项目本地初始化。

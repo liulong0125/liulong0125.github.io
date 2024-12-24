@@ -1,8 +1,8 @@
 ---
 layout: post
 title: vue-router 的使用
-categories: [vue-router]
-tags: [vue-router]
+categories: [Vue]
+tags: [路由]
 ---
 
 本篇主要介绍 ``vuex-router`` 的使用，用 ``Vue.js + Vue Router`` 创建单页应用，感觉很自然：使用 Vue.js ，我们已经可以通过组合组件来组成应用程序，当你要把 ``vue-router`` 添加进来，我们需要做的是，将组件 ( ``components`` ) 映射到路由 ( ``routes`` )，然后告诉 ``vue-router`` 在哪里渲染它们( [vue-router 3官网](https://v3.router.vuejs.org/zh/guide/)、[vue-router 4官网](https://router.vuejs.org/zh/guide/))。**<font color=red>其中会穿插着将 vue-router 3 和 4 的版本差异。</font>**
@@ -1475,7 +1475,8 @@ css 动画类库[animate.css](https://daneden.github.io/animate.css/)
 2. 销毁元素：``v-leave`` & ``v-leave-active`` 形成初始状态，下一个事件循环随即添加 ``v-leave-to`` 且删除 ``v-leave`` 类，动画结束后所有动画类被移除。
 
 > + ``v-enter-active`` 和 ``v-leave-active`` 在整个动画周期内（从元素存在到动画结束）一直存在，可以只设置 ``v-enter/leave`` 或者 ``v-enter/leave-to`` 任意一个类实现动画效果，当然也可以只使用 ``v-enter`` 声明初始状态 ``v-etner-active`` 声明动画时长和缓动函数， ``v-enter-to`` 声明最终状态。
-+ **<font color=red>销毁元素和创建的时候，把初始状态放到 v-enter/leave ，把最终状态和动画时长的定义放到 v-enter/leave-to 中，跳过 v-enter/leave-active，否则初始状态效果出不来（现象来自 vue@2.6.14）。</font>**
++ **<font color=red>销毁元素和创建的时候，把初始状态放到 v-enter/leave ，把最终状态和动画时长的定义放到 v-enter/leave-to 中，跳过在 v-enter/leave-active 中设置动画时长和动画属性，尤其是离开状态的初始效果会无法展示，可以在 active 中只写一些辅助属性比如定位之类的。</font>**
++ **<font color=red>Vue3 中 v-enter 改为了 v-enter-from，v-leave 改为了 v-leave-from。</font>**
 + 关于 [过渡 & 动画](/vue/2024/12/23/vue.html#过渡--动画) 详细内容。
 
 
@@ -1717,6 +1718,11 @@ new Vue({ // eslint-disable-line
 
 
 ### 多视图
+![vue_router_11.png](/static/img/vueRouter/vue_router_11.jpg)
+
+
+
+
 **目录结构**
 
 **\|--** ``/src/router/routes.js`` - 路由定义。
