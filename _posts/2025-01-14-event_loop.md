@@ -9,8 +9,9 @@ tags: [微任务, 宏任务]
 
 # 事件循环
 + [分类](#分类)
+  + [宏任务](#宏任务)
+  + [微任务](#微任务)
 + [其它](#其它)
-
 
 
 
@@ -33,9 +34,78 @@ tags: [微任务, 宏任务]
 
 
 
+### 微任务
+1. ``Promise`` 的 ``then/catch/finally`` 方法中的回调函数。
+2. ``MutationObserver`` 的回调函数。
+3. ``Object.observe``（已废弃）。
+4. ``process.nextTick`` （ ``Node.js`` 环境中）
+
+
+
+
 ## 其它
-1. 微任务执行是产生的微任务会插入到当前微任务队列后面，执行仍然遭遇宏任务。
+1. 微任务执行时产生的微任务会插入到当前微任务队列后面，执行仍然早于宏任务。
 2. 页面加载完毕后添加过渡动画类名的时候，要放在宏任务里添加类名，如果放在微任务里面下一次事件循环的时候检测不到类名变化，无法实现动画效果。
+
+![npm](/static/img/eventLoop/event_loop_01.gif)
+
+```vue
+{% raw %}
+<template>
+  <div class="container">
+    <div class="move" :class="cls"></div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'index',
+  data() {
+    return {
+      cls: ''
+    };
+  },
+  // 模板解析渲染后的钩子函数（同步代码）
+  mounted() {
+    /**
+     * 使用微任务动态添加动画类，下一个事件循环之前就添加上了动画类，
+     * UI 渲染属于宏任务，在下一个事件循环时，由于　dom 元素的动画类名一直存在
+     * 检测不到差异变化，动画不生效
+     ***/
+    // this.$nextTick(() => {
+    //   this.cls = 'active';
+    // });
+
+    /**
+     * 下一个事件循环 UI 渲染时，检测到 dom 元素新增了动画类名
+     * 动画运行
+     ***/
+    setImmediate(() => {
+      this.cls = 'active';
+    });
+  }
+};
+</script>
+
+<style lang="less" scoped>
+.container {
+  background: linear-gradient(90deg, rgb(255, 204, 0) 25%, rgb(0, 87, 226) 25%, rgb(0, 87, 226) 50%, orange 50%, orange 75%, violet 75%);
+}
+
+.move {
+  width: 100px;
+  height: 100px;
+  background-color: silver;
+}
+
+.active {
+  transform: translateX(calc(100vw - 100px));
+  transition: all 1s linear 0s;
+}
+</style>
+{% endraw %}
+```
+
 > + UI 渲染也属于宏任务。
 
 
