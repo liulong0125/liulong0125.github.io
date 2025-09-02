@@ -14,12 +14,15 @@ tags: [npm]
 + [思维导图](#思维导图)
 + [页面截图](#页面截图)
 + [地理信息服务](#地理信息服务)
-+ [vue-esign](#vue-esign)
 + [sheetjs-style](#sheetjs-style)
-+ [editormd](#editormd)
++ [vue-esign](#vue-esign)
 + [vue-virtual-scroller](#vue-virtual-scroller)
 + [crypto-js](#crypto-js)
-
++ [monaco-editor](#monaco-editor)
++ [highlight.js](#highlightjs)
++ [md-editor-v3](#md-editor-v3)
++ [pinyin-pro](#pinyin-pro)
++ [sanitize-html](#sanitize-html)
 
 
 
@@ -80,7 +83,8 @@ tags: [npm]
 > [地理坐标/地图](https://echarts.apache.org/examples/zh/index.html#chart-type-map)
 
 
-
+## sheetjs-style
+ 纯前端实现导出 ``excel`` 表格及自定义单元格样式。
 
 
 ## vue-esign
@@ -89,14 +93,7 @@ tags: [npm]
 
 
 
- ## sheetjs-style
- 纯前端实现导出 ``excel`` 表格及自定义单元格样式。
-
-
-
-
-## editormd
-一款  ``markdown`` 编辑器。
+ 
 
 
 
@@ -110,3 +107,33 @@ tags: [npm]
 
 ## crypto-js
 常用的加密解密算法包。
+
+
+
+
+
+## monaco-editor
+基于浏览器的代码编辑器。
+
+
+
+
+## highlight.js
+一个流行的代码语法高亮库。
+
+
+
+
+## md-editor-v3
+一款 markdown 编辑器，类似的还有 editor.md，markdown-it。
+
+
+
+## pinyin-pro
+一个专业的 JavaScript 中文转拼音的库,具备多音字识别准确、体积轻量、性能优异、功能丰富等特点。
+
+
+
+
+## sanitize-html
+一个强大的 HTML 清洗库,提供了丰富的配置选项,可以精确地控制哪些 HTML 元素、属性等是允许的,从而有效防御 XSS 攻击。
