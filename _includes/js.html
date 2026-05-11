@@ -1,2 +1,10 @@
 <!-- 文档加载完毕执行全局脚本 -->
-<script  type="text/javascript" src="/static/js/main.js"></script>
+<script type="text/javascript" src="/static/js/main.js"></script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.mjs';
+  
+  mermaid.initialize({ startOnLoad: true });
+
+  // 由于 markdown 的解析器 kramdown（当前项目使用的解析器，常用的解析器e.g. kramdown、rdiscount、maruku），生成的元素的类名携带了 "language-" 前缀，需要使用 mermaid.run 方法修改元素选择器（高版本已经不支持在 mermaid.initialize 中设置了）
+  mermaid.run({ querySelector: '.language-mermaid' });
+</script>
