@@ -46,7 +46,12 @@ vue ui
 ## Vite
 
 ```
-npm create vue@latest
+// 方式一: 全局安装 vite 工具
+npm install create-vite --global
+create-vite my-project
+
+// 方式二: 不全局安装
+npm create vite@latest
 ```
 
 > 安装将 ``nodejs`` 版本升级到 ``18+``（16.20.2 也可以） 以上，``win7`` 不能安装 ``14+`` 以上的版本，需要在系统环境变量新建环境变量 ``NODE_SKIP_PLATFORM_CHECK`` 值设置为``1``。
