@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 软件推荐
+title: 软件推荐 & 命令行工具
 categories: [软件]
-tags: [通用软件, 编程软件]
+tags: [通用软件, 编程软件, 命令行工具]
 ---
 
 本文主要介绍常用的软件。
@@ -10,6 +10,7 @@ tags: [通用软件, 编程软件]
 # 软件推荐
 + [通用软件](#通用软件)
 + [编程软件](#编程软件)
++ [命令行工具](#命令行工具)
 
 
 
@@ -103,8 +104,50 @@ Axure RP是一款专业的快速原型设计工具。
 
 
 
+## 命令行工具
+1. tree-cli
+
+通过框线符号输出目录树结构
+- 示例: ``npx tree-cli@0.6.7 --ignore 'node_modules, .vscode' --directoryFirst -a --noreport -l 5`` 。
+```
+E:\local-test\webpack-app
+├── public
+|  ├── favicon.ico
+|  └── index.html
+├── src
+|  ├── assets
+|  |  └── logo.png
+|  ├── components
+|  |  └── HelloWorld.vue
+|  ├── router
+|  |  └── index.js
+|  ├── store
+|  |  └── index.js
+|  ├── views
+|  |  ├── AboutView.vue
+|  |  └── HomeView.vue
+|  ├── App.vue
+|  └── main.js
+├── .browserslistrc
+├── .eslintrc.js
+├── .gitignore
+├── babel.config.js
+├── jsconfig.json
+├── package-lock.json
+├── package.json
+├── README.md
+└── vue.config.js
+```
+- 参数
+  - --noreport: 不输出结果的末尾显示文件和文件夹的总数统计。
+  - -l: 输出目录的深度，e.g.  ``-l 2`` 只输出2层目录。
+  - --directoryFirst: 优先排列文件夹，再排列文件。
+  - -f: 给目录末尾添加 ``/``。
+  - --ignore: 忽略目录或者文件， ``--ignore 'node_modules/, .vscode'`` 。
+  - -o: 输出结果到文件， ``-o temp.txt`` 。
+  - -d: 只输出目录。
 
 
-
-
+> + 该命令行工具依赖 ``nodejs`` 环境。
++ 之所以使用 ``npx`` 命令执行（安装立即调用安装目录的命令行），是为了避免与 windows 的默认目录输出命令 ``tree`` 冲突(系统自带的目录树除数命令参数不够细腻，不推荐）。
 
