@@ -290,6 +290,10 @@
         margin-top: 0;
         margin-bottom: 10px;
     }
+
+    > p {
+      text-indent: 2em;
+    }
     
     blockquote {
         margin: 0;
@@ -662,6 +666,7 @@
     }
     
     li>p {
+        text-indent: initial;
         margin-top: 16px;
     }
     

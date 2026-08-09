@@ -54,7 +54,8 @@ create-vite my-project
 npm create vite@latest
 ```
 
-> 安装将 ``nodejs`` 版本升级到 ``18+``（16.20.2 也可以） 以上，``win7`` 不能安装 ``14+`` 以上的版本，需要在系统环境变量新建环境变量 ``NODE_SKIP_PLATFORM_CHECK`` 值设置为``1``。
+> + 安装将 ``nodejs`` 版本升级到 ``18+``（16.20.2 也可以） 以上，``win7`` 不能安装 ``14+`` 以上的版本，需要在系统环境变量新建环境变量 ``NODE_SKIP_PLATFORM_CHECK`` 值设置为``1``。
++ 方式二的安装方式详解，参考 [npx](/软件/2026/08/05/npx.html) 。
 
 
 
