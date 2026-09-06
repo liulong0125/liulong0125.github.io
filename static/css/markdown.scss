@@ -1,6 +1,11 @@
 ---
 ---
 
+@import 'color';
+
+
+
+
 .markdown-body {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
@@ -571,7 +576,7 @@
     pre,
     details {
         margin-top: 0;
-        margin-bottom: 16px;
+        margin-bottom: 0;
     }
     
     blockquote>:first-child {
@@ -847,10 +852,6 @@
         border: 0;
     }
     
-    .highlight {
-        margin-bottom: 16px;
-    }
-    
     .highlight pre {
         margin-bottom: 0;
         word-break: normal;
@@ -971,5 +972,77 @@
     
     ::-webkit-calendar-picker-indicator {
         filter: invert(50%);
+    }
+
+    div.highlighter-rouge {
+      position: relative;
+
+      &.locked > .highlight{
+        height: 150px;
+        overflow: auto;
+      }
+    }
+    
+    // 代码块 收起 & 展开
+    .view-all {
+      position: absolute;
+      right: 0;
+      padding: 2px 6px;
+      font-size: 12px;
+      font-family: simsun;
+      color: #fff;
+      background-color: $primary;
+      cursor: pointer;
+
+      &-top {
+        top: 0;
+        border-radius: 0 0 0 5px;
+      }
+
+      &-bottom {
+        bottom: 0;
+        border-radius: 5px 0 0 0;
+      }
+    }
+
+    // 代码块 上版本 & 下版本
+    .version-wrap {
+      position: relative;
+      z-index: 100;
+      display: flex;
+      height: 0;
+      font-size: 12px;
+      font-family: simsun;
+      color: #fff;
+
+      span {
+        position: relative;
+        display: flex;
+        align-items: center;
+        border-radius: 0 3px 3px 0;
+        height: 20px;
+        cursor: pointer;
+      }
+
+      .version-prev {
+        z-index: 102;
+        padding: 4px;
+        background-color: firebrick;
+
+        &:before {
+          content: '上一个版本';
+        }
+      }
+
+      .version-next {
+        z-index: 101;
+        left: -4px;
+        padding: 4px 4px 4px 8px;
+        background-color:slateblue;
+
+        &:before {
+          content: '下一个版本';
+        }
+      }
     }
 }

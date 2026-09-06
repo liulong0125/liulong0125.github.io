@@ -250,7 +250,7 @@
 
 	// 默认参数
 	$.fn.pagination.defaults = {
-        total: 0, // 数据总条数
+    total: 0, // 数据总条数
 		pageCount: 8, // 页码按钮数量（非偶数转换为偶数）
 		pageSize: 10, // 每页显示的条目数
 		currentPage: 1, // 默认显示第一页,也有可能显示别的
