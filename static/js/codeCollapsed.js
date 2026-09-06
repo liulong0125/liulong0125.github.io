@@ -5,7 +5,7 @@ $(document).ready(function() {
     $('div.highlighter-rouge').each((i, elm) => {
       var $elm = $(elm);
 
-      if (elm.scrollHeight > 150) {
+      if (elm.scrollHeight > 300) {
         $elm.append('<div class="view-all view-all-top">展开↓</div><div class="view-all view-all-bottom">展开↓</div>');
         $elm.addClass('locked');
       }
