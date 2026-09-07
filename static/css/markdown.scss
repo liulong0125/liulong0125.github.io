@@ -328,7 +328,7 @@
     // 列表
     // 列表 - 项
     li {
-        list-style:inherit;
+        list-style: inherit;
     }
 
     // 列表 - 有序列表 - 使用数字
@@ -674,9 +674,13 @@
         text-indent: initial;
         margin-top: 16px;
     }
+
+    li {
+      padding: .2em 0;
+    }
     
     li+li {
-        margin-top: .25em;
+      padding: 0 0 .2em;
     }
     
     dl {
@@ -685,14 +689,12 @@
     
     dl dt {
         padding: 0;
-        margin-top: .5em;
         font-size: 1em;
-        font-style: italic;
         font-weight: 600;
     }
     
     dl dd {
-        padding: .5em 0;
+        padding: .2em 0;
     }
     
     table th {
