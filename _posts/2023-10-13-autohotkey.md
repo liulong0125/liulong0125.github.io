@@ -100,10 +100,11 @@ AutoHotkey是一个windows上的开源软件，用于做自动化的处理 将�
 :*:jtab::console.table();{Left 2}  ; 输出 控制台语句
 :*:jsto::setTimeout(function(){{}{}}, 2000);{Left 9}{Enter 2}{Up}{Tab}  ; setTimeout
 
-; -------------------------------- 4.  mackdown 输入习惯定义 -----------------------------------
+; -------------------------------- 4.  markdown 输入习惯定义 -----------------------------------
 
 :*:mdcenter::<center><font size=2 color=gray></font></center>{Left 16} ; 文字居中实现
 :*:mdzhu::<font color=red>****</font>{Left 9} ; 注：红色加粗
+:*:mdversion::<div class="version-wrap" id=""><span class="version-anchor version-prev"target=""></span><span class="version-anchor version-next" target=""></span></div> ; 代码版本标记模板
 :*:````::````{Left} ; 行内代码
 :*:``cb::````````````{Left 3}{Enter 2}{Up 2}{Right 3} ; 代码块
 
