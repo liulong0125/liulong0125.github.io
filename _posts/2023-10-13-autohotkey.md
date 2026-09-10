@@ -26,7 +26,7 @@ AutoHotkey是一个windows上的开源软件，用于做自动化的处理 将�
 
 + 窗体激活设置
   + 单窗口激活使用 `#IfWinActive ahk_class 窗口类名`。
-  + 多窗口激活使用 `#If WinActive("ahk_class SWT_Window0") || WinActive("ahk_class Chrome_WidgetWin_1")` 多敞口需要使用函数。
+  + 多窗口激活使用 `#If WinActive("ahk_class SWT_Window0") || WinActive("ahk_class Chrome_WidgetWin_1")` 多窗口需要使用函数。
   + 如果不需要窗体限制删除限制条件就是针对全部窗口。
   + 常见的 窗口类名（ahk_class）
     + Windows 原生
