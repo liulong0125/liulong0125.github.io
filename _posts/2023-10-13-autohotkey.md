@@ -12,8 +12,6 @@ AutoHotkey是一个windows上的开源软件，用于做自动化的处理 将�
 + [输入法配置](#输入法配置)
 + [AHK 热键配置](#ahk-热键配置)
 + [AHK 按键概览](#ahk-按键概览)
-+ [Hbuilder 快捷键配置](#hbuilder-快捷键配置)
-+ [VSCode 快捷键配置](#vscode-快捷键配置)
 
 
 
@@ -54,6 +52,7 @@ AutoHotkey是一个windows上的开源软件，用于做自动化的处理 将�
 
 {% raw %}
 ```html
+!1::Suspend
 !2::Edit
 !3::Reload
 
@@ -105,7 +104,7 @@ AutoHotkey是一个windows上的开源软件，用于做自动化的处理 将�
 :*:mdcenter::<center><font size=2 color=gray></font></center>{Left 16} ; 文字居中实现
 :*:mdzhu::<font color=red>****</font>{Left 9} ; 注：红色加粗
 :*:mdversion::<div class="version-wrap" id=""><span class="version-anchor version-prev"target=""></span><span class="version-anchor version-next" target=""></span></div> ; 代码版本标记模板
-:*:````::````{Left} ; 行内代码
+:*:````:: ```` {Left 2} ; 行内代码
 :*:``cb::````````````{Left 3}{Enter 2}{Up 2}{Right 3} ; 代码块
 
 ; -------------------------------- 5.  输入习惯定义 --------------------------------------------
@@ -156,30 +155,3 @@ if GetKeyState("LCtrl") {
 
 ## AHK 按键概览
 ![按键概览](/static/img/software/ahk/01.jpg)
-
-
-
-
-## Hbuilder 快捷键配置
-![Hbuilder快捷键配置](/static/img/software/ahk/02.jpg)
-
-
-
-
-## VSCode 快捷键配置
-+ 中文语言配置
-`contrl + shift + p` 输入 "Configure Display Language" 点击 en 下面的添加其它语言包，安装 Chinese 简体中文， 安装完成后重启再次 `contral + shift + p` 即可选择 “zh-cn" 简体中文。
-
-+ 字体大小配置
-“文件” - "首选项“ - ”设置“ - "Editor: Font Size" 配置编辑器文字大小
-
-+ Tab 缩进配置
-“文件” - "首选项“ - ”设置“ - "Editor: Tab Size" 配置编辑器 Tab 缩进的空格数量
-
-+ 颜色配置
-点击左下角齿轮图标，选择 ”颜色主题“
-
-+ 快捷键配置
-点击左下角齿轮图标，选择 ”键盘快捷方式“
-
-![VSCode快捷键](/static/img/software/ahk/04.jpg)
