@@ -12,13 +12,16 @@ tags: [jekyll, 博客, 流程图]
   + [环境配置](#环境配置)
   + [示例](#示例)
 + [流程图](#流程图)
+  + [单节点](#单节点)
+  + [多节点](#多节点)
+  + [节点形状](#节点形状)
 
 
 
 
 ## 前言
 ``Mermaid`` 是一个基于 ``JavaScript`` 的图表和作图工具，它使用类似 ``Markdown`` 的文本定义和渲染器来创建和修改复杂的图表。``Mermaid`` 的主要目的是帮助文档跟上开发的步伐。
-[官网](https://mermaid.js.org/)、[中文网](https://mermaid.nodejs.cn/intro/)、[github](https://github.com/mermaid-js/mermaid)。
+[官网](https://mermaid.js.org/)、[中文学习网](https://docs.min2k.com/zh/mermaid/intro/)、[github](https://github.com/mermaid-js/mermaid)。
 
 ### 环境配置
 在 ``jekyll`` 中使用  ``mermaid.js``，需要安装 ``jekyll-mermaid`` 插件。[官方安装示例](https://rubygems.org/gems/jekyll-mermaid)，由于[github插件支持白名单](https://docs.github.com/zh/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll)中没有 ``jekyll-mermaid`` ，不能通过 ``gem install jekyll-mermaid`` 的方式安装，静态页会不生效，需要通过传统 ``<script>`` 标签的方式引入。
@@ -26,12 +29,14 @@ tags: [jekyll, 博客, 流程图]
 ```html
 <!-- 将改代码放到 js 代码统一执行的入口处，e.g. 当前静态页放到了 body 的结尾处  -->
 <script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.mjs';
-
-  mermaid.initialize({ startOnLoad: true });
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  
+  // 关闭自动渲染逻辑（依托于 DOMContentLoaded 事件，此时无法修改默认的扫描元素类，需要手动调用 mermaid.run 进行掌控）
+  mermaid.initialize({ startOnLoad: false });
 
   // 由于 markdown 的解析器 kramdown（当前项目使用的解析器，常用的解析器e.g. kramdown、rdiscount、maruku），生成的元素的类名携带了 "language-" 前缀，需要使用 mermaid.run 方法修改元素选择器（高版本已经不支持在 mermaid.initialize 中设置了）
-  mermaid.run({ querySelector: '.language-mermaid' });
+  await mermaid.run({ querySelector: '.language-mermaid' });
+  console.log('图表渲染完成...');
 </script>
 ```
 
@@ -57,7 +62,7 @@ flowchart LR
 ### 流程图
 流程图由节点（几何形状）和边（箭头或线条）组成。Mermaid 代码定义了节点和边的生成方式，并支持不同类型的箭头、多方向箭头以及与子图的任意链接。
 
-+ 单节点
+#### 单节点
 ````
 ```mermaid
 flowchart LR
@@ -88,7 +93,7 @@ flowchart LR
 
 
 
-+ 多节点
+#### 多节点
 ````
 ```mermaid
 flowchart LR
@@ -127,56 +132,39 @@ flowchart LR
 
 
 
-+ 节点形状
-````
+#### 节点形状
++ 基础节点形状
 ```mermaid
 flowchart LR
-  节点1(圆角节点)
-  节点2([体育场形状节点])
-  节点3[[子程序形状节点]]
-  节点4[(圆柱形装节点)]
-  节点5((圆形节点))
-  节点6>不对称形装节点]
-  节点7{菱形节点}
-  节点8[/平行四边形节点/]
-  节点9[\翻转平行四边形节点\]
-  节点10[/梯形形节点\]
-  节点11[\翻转梯形节点/]
-  节点12(((双圆形节点)))
-```
-````
-```mermaid
-flowchart LR
-  节点1(圆角节点)
-  节点2([体育场形状节点])
-  节点3[[子程序形状节点]]
-  节点4[(圆柱形装节点)]
-  节点5((圆形节点))
-  节点6>不对称形装节点]
-  节点7{菱形节点}
-  节点8[/平行四边形节点/]
-  节点9[\翻转平行四边形节点\]
-  节点10[/梯形形节点\]
-  节点11[\翻转梯形节点/]
-  节点12(((双圆形节点)))
+  A("A(圆角节点)")
+  B(["([体育场形状节点])"])
+  C[["[[子程序形状节点]]"]]
+  D[("D[(圆柱形装节点)]")]
+  E(("E((圆形节点))"))
+  F>"F>不对称形装节点]"]
+  G{"G{菱形节点}"}
+  H[/"H[/平行四边形节点/]"/]
+  I[\"I[\翻转平行四边形节点\]"\]
+  J[/"J[/梯形形节点\]"\]
+  K[\"K[\翻转梯形节点/]"/]
+  L((("L(((双圆形节点)))")))
+
+  A --> B --> C --> D
+  E --> F --> G --> H
+  I --> J --> K --> L
 ```
 
 
 
 
 + 新节点形状
-需要 ``remaid.js`` 版本 ``v11.3.0+`` 声明方式，e.g.  ``id@{ shape: 形装名称, label: "展示的文本" }`` 。
-````
+需要 ``mermaid.js`` 版本 ``v11.3.0+`` 声明方式，e.g.  ``id@{ shape: 形装名称, label: "展示的文本" }`` 。
 ```mermaid
 flowchart LR
-  节点A@{ shape: manual-file, label: "文件处理"}
-  节点B@{ shape: manual-input, label: "用户输入"}
-```
-````
-```mermaid
-flowchart LR
-  节点A@{ shape: manual-file, label: "文件处理"}
-  节点B@{ shape: manual-input, label: "用户输入"}
+  A@{ shape: manual-file, label: "A@{ shape: manual-file, label: \"文件处理\"}"}
+  B@{ shape: manual-input, label: "B@{ shape: manual-input, label: \"用户输入\"}"}
+
+  A --> B
 ```
 
 

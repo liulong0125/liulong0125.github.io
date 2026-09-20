@@ -1,10 +1,12 @@
 <script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.mjs';
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
   
-  mermaid.initialize({ startOnLoad: true });
+  // 关闭自动渲染逻辑（依托于 DOMContentLoaded 事件，此时无法修改默认的扫描元素类，需要手动调用 mermaid.run 进行掌控）
+  mermaid.initialize({ startOnLoad: false });
 
   // 由于 markdown 的解析器 kramdown（当前项目使用的解析器，常用的解析器e.g. kramdown、rdiscount、maruku），生成的元素的类名携带了 "language-" 前缀，需要使用 mermaid.run 方法修改元素选择器（高版本已经不支持在 mermaid.initialize 中设置了）
-  mermaid.run({ querySelector: '.language-mermaid' });
+  await mermaid.run({ querySelector: '.language-mermaid' });
+  console.log('图表渲染完成...');
 </script>
 <script type="text/javascript" src="/static/js/main.js"></script>
 <script type="text/javascript" src="/static/js/codeCollapsed.js"></script>
