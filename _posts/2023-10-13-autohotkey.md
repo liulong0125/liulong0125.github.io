@@ -102,7 +102,7 @@ AutoHotkey是一个windows上的开源软件，用于做自动化的处理 将�
 
 :*:jlog::console.log();{Left 2}  ; 输出 控制台语句
 :*:jtab::console.table();{Left 2}  ; 输出 控制台语句
-:*:jsto::setTimeout(function(){{}{}}, 2000);{Left 9}{Enter 2}{Up}{Tab}  ; setTimeout
+:*:jsto::setTimeout(function() {{}{}}, 2000);{Left 9}{Enter 2}{Up}{Tab}  ; setTimeout
 
 ; -------------------------------- 3.  markdown 输入习惯定义 -----------------------------------
 
