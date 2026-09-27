@@ -2,7 +2,7 @@
 $(document).ready(function() {
     console.log('代码折叠...');
 
-    $('div.highlighter-rouge').each((i, elm) => {
+    $('div.highlighter-rouge, pre.highlighter-rouge').each((i, elm) => {
       var $elm = $(elm);
 
       if (elm.scrollHeight > 300) {

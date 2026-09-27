@@ -976,10 +976,23 @@
         filter: invert(50%);
     }
 
+    code.language-mermaid {
+      display: block;
+    }
+
     div.highlighter-rouge {
       position: relative;
 
       &.locked > .highlight {
+        height: 300px;
+        overflow: auto;
+      }
+    }
+
+    pre.highlighter-rouge {
+      position: relative;
+
+      &.locked > code {
         height: 300px;
         overflow: auto;
       }

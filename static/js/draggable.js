@@ -10,7 +10,7 @@
     switch(event.type) {
       case 'mousedown':
         do {
-          if (target.className && target.className.indexOf('draggable') > -1) {
+          if (target.className && target.className.indexOf && target.className.indexOf('draggable') > -1) {
             dragging = target;
 
             break;
@@ -38,7 +38,7 @@
         var zooming;
 
         do {
-          if (target.className && target.className.indexOf('draggable') > -1) {
+          if (target.className && target.className.indexOf && target.className.indexOf('draggable') > -1) {
             zooming = target;
 
             break;

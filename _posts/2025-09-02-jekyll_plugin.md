@@ -16,6 +16,10 @@ tags: [jekyll, 博客, 流程图]
   + [多节点](#多节点)
   + [节点形状](#节点形状)
   + [连线](#连线)
+  + [子图](#子图)
+  + [交互](#交互)
+  + [样式](#样式)
+  + [fontawesome字体](#fontawesome字体)
 
 
 
@@ -33,7 +37,16 @@ tags: [jekyll, 博客, 流程图]
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
   
   // 关闭自动渲染逻辑（依托于 DOMContentLoaded 事件，此时无法修改默认的扫描元素类，需要手动调用 mermaid.run 进行掌控）
-  mermaid.initialize({ startOnLoad: false });
+  mermaid.initialize({
+    startOnLoad: false,
+    markdownAutoWrap: true, // 默认值 true
+    securityLevel: 'loose', // 允许触发节点的点击事件
+    htmlLabels: true, // false -> svg 内的文字使用 <text> 标签渲染，true - 通过 <foreignObject> 标签嵌入 html 渲染文字（解决设置 markdown 格式问题，以及文字 markdownAutoWrap 文字折行能力
+    flowchart: { // 流程图的单独配置
+      useMaxWidth: true, // 适配博客容器，手机也能正常缩放
+      curve: 'basis' // 连线方式, e.g. basis、bumpX、bumpY、cardinal、catmullRom、linear、monotoneX、monotoneY、natural、step、stepAfter和stepBefore
+    }
+  });
 
   // 由于 markdown 的解析器 kramdown（当前项目使用的解析器，常用的解析器e.g. kramdown、rdiscount、maruku），生成的元素的类名携带了 "language-" 前缀，需要使用 mermaid.run 方法修改元素选择器（高版本已经不支持在 mermaid.initialize 中设置了）
   await mermaid.run({ querySelector: '.language-mermaid' });
@@ -47,9 +60,12 @@ tags: [jekyll, 博客, 流程图]
 ```mermaid
 flowchart LR
   A --> B
+
+%% 这里是注释
 ```
 ````
-> 输出以上代码块参照 [markdown中展示代码块](/软件/2023/10/08/markdown.html#代码块)
+> + 输出以上代码块参照 [markdown中展示代码块](/软件/2023/10/08/markdown.html#代码块)
++ `mermaid` 中注释以 `%%` 开头独占一行
 
 + 运行结果
 ```mermaid
@@ -164,51 +180,56 @@ flowchart LR
 flowchart LR
   A@{ shape: manual-file, label: "A@{ shape: manual-file, label: \"文件处理\" }" }
   B@{ shape: manual-input, label: "B@{ shape: manual-input, label: \"用户输入\" }" }
-  C@{ shape: docs, label: "C@{ shape: docs, label: \"多个文档\" }" }
-  D@{ shape: procs, label: "D@{ shape: procs, label: \"过程自动化\" }" }
-  E@{ shape: paper-tape, label: "E@{ shape: paper-tape, label: \"纸质记录\" }" }
-  F@{ shape: hex, label: "F@{ shape: hex, label: \"准备条件\" }" }
+
+  C@{ shape: doc, label: "Q@{ shape: doc, label: \"文档\" }" }
+  D@{ shape: docs, label: "C@{ shape: docs, label: \"多个文档\" }" }
+  E@{ shape: tag-doc, label: "AE@{ shape: tag-doc, label: \"标记文档\" }" }
+  F@{ shape: lin-doc, label: "Z@{ shape: lin-doc, label: \"有线文档\" }" }
 
 
-  G@{ shape: notch-rect, label: "G@{ shape: notch-rect, label: \"卡片\" }" }
-  H@{ shape: lin-rect, label: "H@{ shape: lin-rect, label: \"有线过程\" }" }
-  I@{ shape: sm-circ, label: "I@{ shape: sm-circ, label: \"小开始\" }" }
-  J@{ shape: framed-circle, label: "J@{ shape: framed-circle, label: \"停止\" }" }
-  K@{ shape: fork, label: "K@{ shape: fork, label: \"分叉或合并\" }" }
-  L@{ shape: hourglass, label: "L@{ shape: hourglass, label: \"整理\" }" }
-  M@{ shape: comment, label: "M@{ shape: comment, label: \"注释左大括号\" }" }
-  N@{ shape: brace-r, label: "N@{ shape: brace-r, label: \"注释右大括号\" }" }
-  O@{ shape: braces, label: "O@{ shape: braces, label: \"注释\" }" }
-  P@{ shape: bolt, label: "P@{ shape: bolt, label: \"通信链接\" }" }
-  Q@{ shape: doc, label: "Q@{ shape: doc, label: \"文档\" }" }
-  R@{ shape: delay, label: "R@{ shape: delay, label: \"延迟\" }" }
-  S@{ shape: das, label: "S@{ shape: das, label: \"直接访问存储\" }" }
-  T@{ shape: lin-cyl, label: "T@{ shape: lin-cyl, label: \"磁盘存储\" }" }
-  U@{ shape: curv-trap, label: "U@{ shape: curv-trap, label: \"显示\" }" }
-  V@{ shape: div-rect, label: "V@{ shape: div-rect, label: \"分割过程\" }" }
-  W@{ shape: tri, label: "W@{ shape: tri, label: \"提取\" }" }
-  X@{ shape: win-pane, label: "X@{ shape: win-pane, label: \"内部存储\" }" }
-  Y@{ shape: f-circ, label: "Y@{ shape: f-circ, label: \"交点\" }" }
-  Z@{ shape: lin-doc, label: "Z@{ shape: lin-doc, label: \"有线文档\" }" }
-  AA@{ shape: notch-pent, label: "AA@{ shape: notch-pent, label: \"循环限制\" }" }
-  AB@{ shape: processes, label: "AB@{ shape: processes, label: \"多个过程\" }" }
-  AC@{ shape: bow-rect, label: "AC@{ shape: bow-rect, label: \"存储数据\" }" }
-  AD@{ shape: cross-circ, label: "AD@{ shape: cross-circ, label: \"总结\" }" }
-  AE@{ shape: tag-doc, label: "AE@{ shape: tag-doc, label: \"标记文档\" }" }
-  AF@{ shape: tag-rect, label: "AF@{ shape: tag-rect, label: \"标记过程\" }" }
+  G@{ shape: das, label: "S@{ shape: das, label: \"直接访问存储\" }" }
+  H@{ shape: lin-cyl, label: "T@{ shape: lin-cyl, label: \"磁盘存储\" }" }
+  I@{ shape: win-pane, label: "X@{ shape: win-pane, label: \"内部存储\" }" }
+  J@{ shape: bow-rect, label: "AC@{ shape: bow-rect, label: \"存储数据\" }" }
+
+  K@{ shape: comment, label: "M@{ shape: comment, label: \"注释左大括号\" }" }
+  L@{ shape: brace-r, label: "N@{ shape: brace-r, label: \"注释右大括号\" }" }
+  M@{ shape: braces, label: "O@{ shape: braces, label: \"注释\" }" }
+
+  N@{ shape: div-rect, label: "V@{ shape: div-rect, label: \"分割过程\" }" }
+  O@{ shape: procs, label: "D@{ shape: procs, label: \"过程自动化\" }" }
+  P@{ shape: tag-rect, label: "AF@{ shape: tag-rect, label: \"标记过程\" }" }
+  Q@{ shape: lin-rect, label: "H@{ shape: lin-rect, label: \"有线过程\" }" }
+
+  R@{ shape: tri, label: "W@{ shape: tri, label: \"提取\" }" }
+  S@{ shape: curv-trap, label: "U@{ shape: curv-trap, label: \"显示\" }" }
+  T@{ shape: notch-rect, label: "G@{ shape: notch-rect, label: \"卡片\" }" }
+  U@{ shape: notch-pent, label: "AA@{ shape: notch-pent, label: \"循环限制\" }" }
+
+  V@{ shape: paper-tape, label: "E@{ shape: paper-tape, label: \"纸质记录\" }" }
+  W@{ shape: hex, label: "F@{ shape: hex, label: \"准备条件\" }" } 
+  X@{ shape: delay, label: "R@{ shape: delay, label: \"延迟\" }" }
+
+  Y@{ shape: framed-circle, label: "J@{ shape: framed-circle, label: \"停止\" }" }
+  Z@{ shape: cross-circ, label: "AD@{ shape: cross-circ, label: \"总结\" }" }
+  AA@{ shape: bolt, label: "P@{ shape: bolt, label: \"通信链接\" }" }
+  AB@{ shape: fork, label: "K@{ shape: fork, label: \"分叉或合并\" }" }
+
+  AC@{ shape: hourglass, label: "L@{ shape: hourglass, label: \"整理\" }" }
+  AD@{ shape: sm-circ, label: "I@{ shape: sm-circ, label: \"小开始\" }" }
+  AE@{ shape: f-circ, label: "Y@{ shape: f-circ, label: \"交点\" }" }
 
 
-  A --> B --> C
-  D --> E --> F
-  G --> H --> I
+  
+  A --> B
+  C --> D --> E --> F
+  G --> H --> I --> J
   K --> L --> M
-  N --> O --> P
-  Q --> R --> Sr
-  T --> U --> V
-  W --> X --> Y --> Z
-
-  AA --> AB --> AC
-  AD --> AE --> AF
+  N --> O --> P --> Q
+  R --> S --> T --> U
+  V --> W --> X
+  Y --> Z --> AA --> AB
+  AC --> AD --> AE
 ```
 
 
@@ -221,6 +242,11 @@ flowchart LR
 // 实线 > 粗实线 > 箭头实线 > 箭头粗实线
 A --- B === C --> D ==> E
 
+// 长实线 > 长粗实线 > 长箭头实线 > 长箭头粗实线
+AK ----- AL
+AM ===== AN
+AO ====> AP
+
 // 文本实线 > 文本粗实线 > 文本箭头实线 > 文本箭头粗实线
 F -- 文本 --- G == 文本 === H -- 文本 --> I == 文本 ==> J
 
@@ -230,21 +256,317 @@ K -.- L -.-> M
 // 文本虚线 > 文本箭头虚线
 K -. 文本 .- L -. 文本 .-> M
 
+// 箭头 > 圆形箭头 > x形箭头
+Z --> AA --o AB --x AC
+
+// 多方向箭头 > 多方向圆形箭头 > 多方向x形箭头
+AD <--> AE o--o AF x--x AJ
+
 // 无形连接（布局使用，强制使得 N O P 不折行）
 N ~~~ O ~~~ P
 N --> Q
 P --> Q
+
+// 多节点连线
+R --> S & T --> U
+V & W --> X & Y
 ```
 ````
 ```mermaid
 flowchart LR
 A --- B === C --> D ==> E
 
+AK ----- AL
+AM ===== AN
+AO ====> AP
+
 F -- 文本 --- G == 文本 === H -- 文本 --> I == 文本 ==> J
 
 K -. 文本 .- L -. 文本 .-> M
 
+Z --> AA --o AB --x AC
+
+AD <--> AE o--o AF x--x AJ
+
 N ~~~ O ~~~ P
 N --> Q
 P --> Q
+
+R --> S & T --> U
+V & W --> X & Y
 ```
+
+
+
+
+#### 子图
+````
+```mermaid
+flowchart LR
+
+  // 基础子图
+  subgraph 开始
+  A
+  B
+  C
+  D
+  end
+
+  subgraph 处理
+  E
+  F
+  end
+
+  subgraph 结果
+  G
+  end
+
+  A & B --> E
+  C & D --> F
+  E & F --> G
+
+  // 子图、节点 互相连接
+  subgraph 图1
+  H
+  end
+
+  subgraph 图2
+  I
+  end
+
+  subgraph 图3
+  J
+  end
+
+  图1 --> 图2
+  H --> 图2
+  图2 --> J
+
+
+  // 子图嵌套并设置顺序
+  subgraph 外层
+    direction TB
+    subgraph 内层1
+      K
+    end
+
+    subgraph 内层2
+      direction RL
+      L --> M
+    end
+  end
+
+  内层1 --> 内层2
+```
+````
+```mermaid
+flowchart LR
+  subgraph 开始
+  A
+  B
+  C
+  D
+  end
+
+  subgraph 处理
+  E
+  F
+  end
+
+  subgraph 结果
+  G
+  end
+
+  A & B --> E
+  C & D --> F
+  E & F --> G
+
+  subgraph 图1
+  H
+  end
+
+  subgraph 图2
+  I
+  end
+
+  subgraph 图3
+  J
+  end
+
+  图1 --> 图2
+  H --> 图2
+  图2 --> J
+
+  subgraph 外层
+    direction TB
+    subgraph 内层1
+      K
+    end
+
+    subgraph 内层2
+      direction RL
+      L --> M
+    end
+  end
+
+  内层1 --> 内层2
+```
+
+> + 如果子图的任何节点与外部链接，子图方向将被忽略。相反，子图将继承父图的方向。
++ 子图内部也可以设置节点连接方式
+
+
+
+
+#### 交互
+````
+```mermaid
+flowchart LR
+  A-->B
+  B-->C
+  C-->D
+  click A myClickHandle "点击节点的事件说明"
+
+  %% 如果只想提示，不做额外操作，第二个参数给个 '' 即可 %%
+  click B '' "提示说明"
+  click C "https://www.baidu.com" "跳转百度"
+```
+````
+```mermaid
+flowchart LR
+  A-->B
+  B-->C
+  C-->D
+
+  click A myClickHandle "点击节点的事件说明"
+  click B '' "提示说明"
+  click C "https://www.baidu.com" "新开页面跳转百度" _blank
+```
+<script type="text/javascript">
+  window.myClickHandle = function() {
+    alert('自定义全局点击事件 myClickHandle');
+  };
+</script>
+
+> + 支持点击事件需要 ` mermaid.initialize` 配置 `securityLevel: 'loose'` 。
++ 如果要配置 `target` 打开方式，需要在最后声明打开方式。
+
+
+
+#### 样式
+<style>
+  .testCssRule rect {
+    stroke: green !important;
+    stroke-width: 6px !important;
+  }
+  .testCssRule .nodeLabel {
+    color: #fff !important;
+  }
+</style>
+````html
+<!-- 定义样式表 -->
+<style>
+  .testCssRule rect {
+    stroke: green !important;
+    stroke-width: 6px !important;
+  }
+  .testCssRule .nodeLabel {
+    color: #fff !important;
+  }
+</style>
+````
+
+````
+```mermaid
+flowchart LR
+
+%% 通过 classDef 定义样式类，默认类 default 不需要显式映射到节点 %%
+classDef default fill: orangered
+
+%% 通过 classDef 定义自定义样式类 %%
+classDef testClass color: #fff,fill: blue,stroke: gainsboro,stroke-width: 4px
+
+%% 通过 style 直接写样式映射到具体的节点 %%
+style A fill: silver,stroke: blue,stroke-width: 4px,color: #fff,stroke-dasharray: 5 5
+
+A(A) --> B(B):::testClass
+C(C) --> D(D)
+E(E) --> F(F)
+
+%% 类映射节点要放到节点声明后面 %%
+class C,D testClass
+class E testCssRule
+```
+````
+```mermaid
+flowchart LR
+
+classDef default fill: orangered
+classDef testClass color: #fff,fill: blue,stroke: gainsboro,stroke-width: 4px
+style A fill: silver,stroke: blue,stroke-width: 4px,color: #fff,stroke-dasharray: 5 5
+
+A(A) --> B(B):::testClass
+C(C) --> D(D)
+E(E) --> F(F)
+
+class C,D testClass
+class E testCssRule
+```
+
+> + 通过 "class 节点 类名" 这种方式设置时，节点要放在前面。
+样式表声明的方式，需要单独声明 `<style>` 样式表。
++ 所有节点都有一个默认类名 `default` ，如果要重写节点的默认样式 `classDef default fill:#f9f,stroke:#333,stroke-width:4px` ，默认类不需要显式映射到节点。
+
+
+
+
+#### fontawesome字体
+````
+```mermaid
+flowchart LR
+
+```
+````
+```mermaid
+flowchart LR
+
+A("fa:fa-twitter 推特图标") --> B("fa:fa-address-book B")
+```
+
+> 通过引用 4.7.0 版本 `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">`， `v4` 版本的 [图标查看](https://fontawesome.com.cn/v4/icons)。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

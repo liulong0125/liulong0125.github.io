@@ -2,13 +2,26 @@
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
   
   // 关闭自动渲染逻辑（依托于 DOMContentLoaded 事件，此时无法修改默认的扫描元素类，需要手动调用 mermaid.run 进行掌控）
-  mermaid.initialize({ startOnLoad: false });
+  mermaid.initialize({
+    startOnLoad: false,
+    markdownAutoWrap: true, // 默认值 true
+    securityLevel: 'loose', // 允许触发节点的点击事件
+    htmlLabels: true, // false -> svg 内的文字使用 <text> 标签渲染，true - 通过 <foreignObject> 标签嵌入 html 渲染文字（解决设置 markdown 格式问题，以及文字 markdownAutoWrap 文字折行能力
+    flowchart: { // 流程图的单独配置
+      useMaxWidth: true, // 适配博客容器，手机也能正常缩放
+      curve: 'basis' // 连线方式, e.g. basis、bumpX、bumpY、cardinal、catmullRom、linear、monotoneX、monotoneY、natural、step、stepAfter和stepBefore
+    }
+  });
 
   // 由于 markdown 的解析器 kramdown（当前项目使用的解析器，常用的解析器e.g. kramdown、rdiscount、maruku），生成的元素的类名携带了 "language-" 前缀，需要使用 mermaid.run 方法修改元素选择器（高版本已经不支持在 mermaid.initialize 中设置了）
   await mermaid.run({ querySelector: '.language-mermaid' });
+
   console.log('图表渲染完成...');
+
+  $('.language-mermaid').parent().addClass('highlighter-rouge');
+
+  import('/static/js/codeCollapsed.js');
 </script>
 <script type="text/javascript" src="/static/js/main.js"></script>
-<script type="text/javascript" src="/static/js/codeCollapsed.js"></script>
 <script type="text/javascript" src="/static/js/versionTrace.js"></script>
 <script type="text/javascript" src="/static/js/draggable.js"></script>
