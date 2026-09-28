@@ -56,14 +56,17 @@ tags: [jekyll, 博客, 流程图]
 
 ### 示例
 + 代码块（流程图类型）
+
 ````
 ```mermaid
 flowchart LR
+  %% 这里是注释
   A --> B
 
-%% 这里是注释
+
 ```
 ````
+
 > + 输出以上代码块参照 [markdown中展示代码块](/软件/2023/10/08/markdown.html#代码块)
 + `mermaid` 中注释以 `%%` 开头独占一行
 
@@ -524,17 +527,16 @@ class E testCssRule
 ````
 ```mermaid
 flowchart LR
-
+  A("fa:fa-twitter推特图标") --> B("fa:fa-address-book&#8203B")
 ```
 ````
 ```mermaid
 flowchart LR
-
-A("fa:fa-twitter 推特图标") --> B("fa:fa-address-book B")
+  A("fa:fa-twitter推特图标") --> B("fa:fa-address-book&#8203B")
 ```
 
-> 通过引用 4.7.0 版本 `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">`， `v4` 版本的 [图标查看](https://fontawesome.com.cn/v4/icons)。
-
+> + 通过引用 4.7.0 版本 `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">`， `v4` 版本的 [图标查看](https://fontawesome.com.cn/v4/icons)。
++ 图标和文字如果有空格的话，会导致 github 渲染的结果会有文字被遮挡的情况，如果是英文文字的话回合图标连接到一块无法展示需要使用 **零宽空** 的 `html` 实体写法 `&#8203` 隔开英文字符和图标定义。
 
 
 
