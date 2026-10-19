@@ -518,8 +518,49 @@ body {
 
 
 /*---------------------------------------------------------------------------------- 其它 */
+#code-collapsed-all {
+  position: fixed;right: 0;bottom: 60px;z-index: 100;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px 0 0 6px;
+  padding: 4px;
+  color: $gary-white;
+  background-color: $primary;
+  cursor: pointer;
+
+  span {
+    font-size: 14px;
+  }
+
+  span:nth-child(1):before {
+    content: '展';
+  }
+
+  span:nth-child(2):before {
+    content: '开';
+  }
+
+  span:nth-child(3):before {
+    content: '代';
+  }
+
+  span:nth-child(4):before {
+    content: '码';
+  }
+
+  &.collapse {
+    span:nth-child(1):before {
+      content: '收';
+    }
+  
+    span:nth-child(2):before {
+      content: '起';
+    }
+  }
+}
+
 #scroll-top {
-    position: fixed;right: 20px;bottom: 40px;z-index: 90;
+    position: fixed;right: 20px;bottom: 170px;z-index: 90;
     border-radius: 50%;
     width: 2em;height: 2em;
     text-align: center;font-size: 20px;line-height: 2em;font-weight: bold;
@@ -532,7 +573,7 @@ body {
 }
 
 #structure-fixed {
-    position: fixed;bottom: 90px;right: 20px;z-index: 80;
+    position: fixed;bottom: 220px;right: 20px;z-index: 80;
 
     &.collapse {
         right: 0;
@@ -549,6 +590,28 @@ body {
         transform: translateY(-50%);
         background-color: $primary;
         cursor: pointer;
+
+        span {
+          font-size: 14px;
+        }
+
+        span:nth-child(1):before {
+          content: '收';
+        }
+      
+        span:nth-child(2):before {
+          content: '起';
+        }
+    }
+
+    &.collapse &-collapse {
+      span:nth-child(1):before {
+        content: '展';
+      }
+    
+      span:nth-child(2):before {
+        content: '开';
+      }
     }
 
     > ul {

@@ -28,4 +28,19 @@ $(document).ready(function() {
       $target.text(text);
       $sibling.text(text);
     });
+
+    // 代码折叠展开总开关
+    $(document).on('click', '#code-collapsed-all', function(event) {
+      var $this = $(this);
+      var $viewAll = $('.view-all');
+
+      if ($this.hasClass('collapse')) {
+        $this.removeClass('collapse');
+        $viewAll.text('展开↓').parent().addClass('locked');
+      } else {
+        $this.addClass('collapse');
+        $viewAll.text('收起↓').parent().removeClass('locked');
+        
+      }
+    });
 });
