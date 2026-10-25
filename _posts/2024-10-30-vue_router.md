@@ -1,7 +1,7 @@
 ---
 layout: post
 title: vue-router 的使用
-categories: [Vue]
+categories: [vue]
 tags: [路由]
 ---
 

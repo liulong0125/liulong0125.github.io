@@ -1,7 +1,7 @@
 ---
 layout: post
 title: vue 项目脚手架
-categories: [Vue, 软件]
+categories: [vue]
 tags: [脚手架]
 ---
 
