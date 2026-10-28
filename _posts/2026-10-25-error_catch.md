@@ -165,21 +165,19 @@ try {
 }
 ```
 
-> + `finally` 后面仍然可以跟 `catch` 。
+> `finally` 后面仍然可以跟 `catch` 。
 
 
 
 + **`async/await`**
 
-
-> + `async/await` **是 Promise 的语法糖**，本身不是微任务；真正放进微任务队列的 `Promise` 的回调（也就是 await 后面的代码）。
-: ```javascript
+`async/await` **是 Promise 的语法糖**，本身不是微任务；真正放进微任务队列的是 `Promise` 的回调（也就是 await 后面的代码）。
+```javascript
   // 语法糖
   async function fn() {
       await Promise.resolve(1);
       console.log('微任务的回调');
   }
-
   // 等价于
   function fn() {
       return Promise.resolve(1).then(() => {
@@ -187,12 +185,12 @@ try {
       })
   }
 ```
-+ `async/await` 能被同步的 `try-catch` 捕获的根本原因是: 当执行流遇到 `await` 时，会把当前 async 函数挂起；函数的执行上下文、局部状态、代码位置都会被引擎保留，它的调用帧会从主线调用栈移出，让出主线程。等到 Promise settle（变成 fulfilled /rejected）之后，引擎恢复这个 async 函数的执行流，回到 `await` 这一行继续执行。如果是 reject 场景，会在这个位置抛出异常；**因为恢复执行时，代码位置仍然处在外层 try 的语法块内部，所以这个异常可以被就近的 catch 捕获**。
+> + `async/await` 能被同步的 `try-catch` 捕获的根本原因是: 当执行流遇到 `await` 时，会把当前 async 函数挂起；函数的执行上下文、局部状态、代码位置都会被引擎保留，它的调用帧会从主线调用栈移出，让出主线程。等到 Promise settle（变成 fulfilled /rejected）之后，引擎恢复这个 async 函数的执行流，回到 `await` 这一行继续执行。如果是 reject 场景，会在这个位置抛出异常；**因为恢复执行时，代码位置仍然处在外层 try 的语法块内部，所以这个异常可以被就近的 catch 捕获**。
 + 虽然 `Promise.then` 和 `async/await` 都不会阻塞主线程，前者是注册一个**全新独立的回调函数**，回调运行时，有它自己全新的调用帧，是一条全新的执行流；**它拿不到外层函数暂停前的执行流、代码断点**，外层函数早就跑完、退出了。外层的 `try` 语法域和这个新回调没关系。而后者把整个 async 函数**挂起，保存完整的执行上下文（断点、局部变量、当前所在语法块，比如 try 内部）**；等 Promise settle，在微任务里**恢复原来这一条执行流**，回到断点继续跑，还处在原来的 `try` 语法域内。
 
 
-+ **`Promise并发` 
-
++ **`Promise`并发**  
+111
 
 
 
