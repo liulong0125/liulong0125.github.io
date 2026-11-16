@@ -9,7 +9,10 @@ tags: [xhr, fetch]
 
 # 网络请求
 + [xhr](#xhr)
+  + [xhr核心特点梳理](#xhr核心特点梳理)
+  + [xhr接受数据的方式](#xhr接受数据的方式)
 + [fetch](#fetch)
+  + [fetch核心特点梳理](#fetch核心特点梳理)
   + [ReadableStream](#ReadableStream)
   + [SSE](#SSE)
 
@@ -21,7 +24,7 @@ tags: [xhr, fetch]
 
 
 
-### 核心特点梳理
+### xhr核心特点梳理
 1. 事件驱动的异步模型（基于状态机）
   + 不返回 Promise，而是通过监听 onreadystatechange、onload、onprogress、onerror 等时间来追踪请求进度。
   > 日常我们使用的 jquery 和 axios 这种三方库调用 xhr 请求时，之所以能作为 Promise 处理是三方库做了内部封装。
@@ -72,19 +75,44 @@ tags: [xhr, fetch]
 ## fetch
 fetch API 是现代浏览器提供的一种基于 Promise 和 WHATWG Streams （流规范）的网络请求标准接口。它抛弃了传统的“事件回调”设计，将 HTTP 请求与响应抽象为“接水龙头”的管道模型，让开发者能够以异步、分块、可控的方式尽处理网络数据。
 
-## 核心特点梳理
+### fetch核心特点梳理
 1. 双阶段异步设计（解耦响应头与响应体）
-  + 第一个 `await fetch(url)`: 仅等待 HTTP 响应头（Headers）到达。此时你可以通过 `status` （如 401、404）或者 `Content-Type` 决定是否继续接受后面的 `Body` ，避免无谓小号带宽。
-  + 第二个 `await response.json/test/...`: 或通过 `response.body` （一个原生的 ReadableStream 可读流对象实例，这里是一个可读流字符对象）手动流式消费，让真正的数据传输(body)在异步流程中分批完成，不阻塞主线程。
+  + 第一个 `await fetch(url)`: 仅等待 HTTP 响应头（Headers）到达。此时你可以通过 `status` （如 401、404）或者 `Content-Type` 决定是否继续接受后面的 `Body` ，避免无谓消耗带宽。
+  + 第二个 `await response.json/text/blob/formData/arrayBuffer()`: 或通过 `response.body` （一个原生的 ReadableStream 可读流对象实例，这里是一个可读流字符对象）手动流式消费，让真正的数据传输(body)在异步流程中分批完成，不阻塞主线程。
+  > 核心用途  
+  > + 分离「网络错误」和「业务 / 解析错误」
+  > + 支持流式处理（大文件、分片下载、SSE 类场景基础）
+  >   + 区分一个概念: 后端哪怕是一次性把完整 JSON 字符串组装好再调用 `write()` 发出去，在 TCP 层面，到前端依然是分片的字节流；“后端一次性写出” ≠ “网络上一次性整块抵达浏览器”。`write()` 方法仅仅只是把数据丢给了操作系统的 TCP 发送缓冲区，不代表网络上一个包直接发完。
+  >   + 第二个 promise : 流管道（ReadableStream）的读取本身是异步 IO，**响应头收到、body 传输刚开始、流还没关闭的时候**就 resolve fetch 的 Promise。此时流只是一个通道，里面字节还在路上；想要拿到里面的内容，就必须**<font color=red>异步去消费流</font>**，消费流的操作天然返回 Promise（需要不断的读取新到的字节进行消费处理），于是就形成了我们看到的两层 Promise 形态。
 
 2. 原生支持流式读取（ReadableStream 与背压机制）
   + 暴露 `response.body` 作为原生的 `ReadableStream`。
-    + 支持逐块读取(如 `response.body.getReader()` 或 `for await ...of` )或管道流转（`response.body.pipeThrough()/pipeTo()`）。
-    + 采用块消费，读完即焚的内存管理方式，处理超大文件或无线长流（如 SSE、大文件下载）时不会造成内存溢出。
+  + 支持逐块读取(如 `response.body.getReader()` 或 `for await ...of` )或管道流转（`response.body.pipeThrough()/pipeTo()`）。
+  + 采用块消费，读完即焚的内存管理方式，处理超大文件或无线长流（如 SSE、大文件下载）时不会造成内存溢出。
+  > + **背压机制**: 下游消费速度跟不上上游生产速度，形成的回流压力；背压机制就是：下游告诉上游「我忙不过来了，先停一停，别再发数据」的**<font color=red>协调机制</font>**。  
+  >   + **传导层级**: 自下而上，**应用层流缓冲区** → **TCP 接收缓冲区** → **后端 TCP 发送缓冲区**，发生背压时，数据只是暂停流转不是数据丢失。
+  >   + **第一层**：JS 侧 ReadableStream 内部队列（highWaterMark 高水位阈值）由于消费流的速度慢，导致流内部队列达到了背压阈值，**浏览器不再从内核 TCP 接收缓冲区里继续捞字节喂给 JS 的 ReadableStream**。
+  >   + **第二层**：操作系统内核的 TCP 接收缓冲区，由于当前流队列达到了阈值，浏览器不再读内核的 TCP缓冲区，该层级的缓冲区慢慢被填满，（这就是 TCP 自带的**传输层流量控制**，是背压真正落地到网络的地方）。
+  > + 相关概念
+  >   + **TCP协议**是面向字节流（byte-stream）的协议，传输单位就是字节。  
+  >   涉及背压的 3 个 TCP 头介绍: 
+  >
+  >   | 字段名称 | 英文 | 作用 | 单位 |
+| ---- | ---- | ---- | ---- |
+| 序列号 | Sequence Number（seq） | 当前报文携带数据的第一个字节编号 | byte |
+| 确认号 | Acknowledgment Number（ack） | 接收方期望收到的下一个字节编号，TCP 是可靠传输，靠 ACK 确认数据有没有送达。 | byte |
+| 接收窗口大小 | Window Size | 接收方当前还能接收的字节上限 | byte |
 
-3. 原生二进制与类型友好
 
 
+3. 现代化的 Promise 与管道隐喻
+  + 彻底告别 xhr 时代晦涩的 `onreadystatechange` 事件回调。
+  + 支持通过 `response.clone()` 将流分流（例如一路做实时前段展示，另一路在后台写入 `Catch API`。
+
+
+
+
+### API 学习
 
 
 
