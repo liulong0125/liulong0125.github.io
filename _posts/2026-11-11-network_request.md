@@ -91,7 +91,7 @@ fetch API 是现代浏览器提供的一种基于 Promise 和 WHATWG Streams （
   + 采用块消费，读完即焚的内存管理方式，处理超大文件或无线长流（如 SSE、大文件下载）时不会造成内存溢出。
   > + **背压机制**: 下游消费速度跟不上上游生产速度，形成的回流压力；背压机制就是：下游告诉上游「我忙不过来了，先停一停，别再发数据」的**<font color=red>协调机制</font>**。  
   >   + **传导层级**: 自下而上，**应用层流缓冲区** → **TCP 接收缓冲区** → **后端 TCP 发送缓冲区**，发生背压时，数据只是暂停流转不是数据丢失。
-  >   + **第一层**：JS 侧 ReadableStream 内部队列（highWaterMark 高水位阈值）由于消费流的速度慢，导致流内部队列达到了背压阈值，**浏览器不再从内核 TCP 接收缓冲区里继续捞字节喂给 JS 的 ReadableStream**。
+  >   + **第一层**：JS 侧 ReadableStream 内部队列（highWaterMark 高水位阈值 - 字节体积，e.g. 32kb，64kb）由于消费流的速度慢，导致流内部队列达到了背压阈值，**浏览器不再从内核 TCP 接收缓冲区里继续捞字节喂给 JS 的 ReadableStream**。
   >   + **第二层**：操作系统内核的 TCP 接收缓冲区，由于当前流队列达到了阈值，浏览器不再读内核的 TCP缓冲区，该层级的缓冲区慢慢被填满，（这就是 TCP 自带的**传输层流量控制**，是背压真正落地到网络的地方）。
   > + 相关概念
   >   + **TCP协议**是面向字节流（byte-stream）的协议，传输单位就是字节。  
@@ -100,14 +100,17 @@ fetch API 是现代浏览器提供的一种基于 Promise 和 WHATWG Streams （
   >   | 字段名称 | 英文 | 作用 | 单位 |
 | ---- | ---- | ---- | ---- |
 | 序列号 | Sequence Number（seq） | 当前报文携带数据的第一个字节编号 | byte |
-| 确认号 | Acknowledgment Number（ack） | 接收方期望收到的下一个字节编号，TCP 是可靠传输，靠 ACK 确认数据有没有送达。 | byte |
-| 接收窗口大小 | Window Size | 接收方当前还能接收的字节上限 | byte |
-
+| 确认号 | Acknowledgment Number（ack） | 接收方期望收到的下一个字节编号，**<font color=red>TCP 是可靠传输，靠 ACK 确认数据有没有送达。</font>** | byte |
+| 接收窗口大小 | Window Size | 接收方当前还能接收的字节上限，**<font color=red>接收方发送，跟随着 HTTP 头一起发送</font>** | byte |
+  >
+  >   + **TCP 的缓冲区（我们说的 TCP 栈缓冲区）是按【字节体积】算，不是按包的数量、不是按 write 调用次数。**
 
 
 3. 现代化的 Promise 与管道隐喻
   + 彻底告别 xhr 时代晦涩的 `onreadystatechange` 事件回调。
-  + 支持通过 `response.clone()` 将流分流（例如一路做实时前段展示，另一路在后台写入 `Catch API`。
+  + 支持通过 `response.clone()` 将流分流（例如一路做实时前段展示，另一路在后台做离线缓存 `ServiceWorker + CacheStorage`）。
+  > 如果只消费其中一条分支，另一条一直不读，整个 body 会全部缓冲在内存，大文件（视频、大二进制）会 OOM（内存溢出）！
+所以它适合**小数据、并行快速读完两个分支**；不适合超大流式文件、两边消费速度差很大的场景。
 
 
 
